@@ -1,0 +1,225 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/doctor/citas" data-link class="back-button">← Regresar</a>
+      <h1>Nueva Cita</h1>
+      <p>Programa una nueva cita médica</p>
+    </div>
+    
+    <div class="card" style="margin-bottom: var(--space-4);">
+      <h3>Información del Paciente</h3>
+      
+      <div class="form-group">
+        <label for="paciente">Seleccionar Paciente</label>
+        <select id="paciente" class="form-select" required>
+          <option value="">Selecciona un paciente</option>
+          <option value="usr_pat_001">María González (V23456789)</option>
+          <option value="usr_pat_002">Pedro Martínez (V34567890)</option>
+        </select>
+        <div class="error-message" id="paciente-error"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="servicio">Servicio Médico</label>
+        <select id="servicio" class="form-select" required>
+          <option value="">Selecciona un servicio</option>
+          <option value="srv_001">Consulta General ($25.00 USD)</option>
+          <option value="srv_002">Curas y Curaciones ($15.00 USD)</option>
+          <option value="srv_003">Colocación de Yeso ($40.00 USD)</option>
+        </select>
+        <div class="error-message" id="servicio-error"></div>
+      </div>
+    </div>
+    
+    <div class="grid grid-2" style="margin-bottom: var(--space-4);">
+      <div>
+        <div class="card">
+          <h3>Calendario</h3>
+          
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <h2 class="calendar-title">Agenda</h2>
+              <div class="calendar-nav">
+                <button class="btn btn-icon calendar-prev">&lt;</button>
+                <button class="btn btn-icon calendar-next">&gt;</button>
+              </div>
+            </div>
+            
+            <div class="month-view">
+              <div class="weekdays">
+                <div class="weekday">Dom</div>
+                <div class="weekday">Lun</div>
+                <div class="weekday">Mar</div>
+                <div class="weekday">Mié</div>
+                <div class="weekday">Jue</div>
+                <div class="weekday">Vie</div>
+                <div class="weekday">Sáb</div>
+              </div>
+              
+              <div class="month-grid">
+                <!-- Días del mes - se generarán dinámicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card">
+          <h3>Horarios Disponibles</h3>
+          
+          <div class="horarios-grid">
+            <button class="btn btn-outline horario-select" data-hora="08:00">08:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="08:30">08:30 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="09:00">09:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="09:30">09:30 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="10:00">10:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="10:30">10:30 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="11:00">11:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="11:30">11:30 AM</button>
+          </div>
+          
+          <div class="form-group" style="margin-top: var(--space-4);">
+            <label for="duracion">Duración</label>
+            <input type="text" id="duracion" value="30 minutos" disabled>
+          </div>
+          
+          <div class="form-group" style="margin-top: var(--space-4);">
+            <label for="fecha-seleccionada">Fecha Seleccionada</label>
+            <input type="text" id="fecha-seleccionada" value="15/05/2023" disabled>
+          </div>
+          
+          <div class="form-group" style="margin-top: var(--space-4);">
+            <label for="hora-seleccionada">Hora Seleccionada</label>
+            <input type="text" id="hora-seleccionada" value="09:00 AM" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card" style="margin-bottom: var(--space-4);">
+      <h3>Detalles de la Cita</h3>
+      
+      <div class="form-group">
+        <label for="motivo">Motivo de la Consulta</label>
+        <textarea id="motivo" rows="4" required></textarea>
+        <div class="error-message" id="motivo-error"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="sintomas">Síntomas</label>
+        <div class="sintomas-container">
+          <!-- Síntomas se cargarán dinámicamente -->
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="notas">Notas Médicas</label>
+        <textarea id="notas" rows="4"></textarea>
+      </div>
+    </div>
+    
+    <div style="text-align: right;">
+      <button type="button" class="btn btn-outline" id="cancelar-cita">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="crear-cita">Crear Cita</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar selección de horarios
+  document.querySelectorAll('.horario-select').forEach(btn => {
+    btn.addEventListener('click', selectHorario);
+  });
+  
+  // Configurar creación de cita
+  document.getElementById('crear-cita').addEventListener('click', crearCita);
+  document.getElementById('cancelar-cita').addEventListener('click', () => navigate('/doctor/citas'));
+  
+  // Renderizar síntomas
+  renderSintomas();
+  
+  function selectHorario(e) {
+    document.querySelectorAll('.horario-select').forEach(btn => {
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-outline');
+    });
+    
+    e.target.classList.remove('btn-outline');
+    e.target.classList.add('btn-primary');
+    
+    document.getElementById('hora-seleccionada').value = e.target.dataset.hora;
+  }
+  
+  function crearCita() {
+    // Validar formulario
+    const paciente = document.getElementById('paciente').value;
+    const servicio = document.getElementById('servicio').value;
+    const fecha = document.getElementById('fecha-seleccionada').value;
+    const hora = document.getElementById('hora-seleccionada').value;
+    const motivo = document.getElementById('motivo').value;
+    
+    let isValid = true;
+    
+    if (!paciente) {
+      document.getElementById('paciente-error').textContent = 'El paciente es obligatorio';
+      document.getElementById('paciente-error').classList.add('active');
+      isValid = false;
+    } else {
+      document.getElementById('paciente-error').classList.remove('active');
+    }
+    
+    if (!servicio) {
+      document.getElementById('servicio-error').textContent = 'El servicio es obligatorio';
+      document.getElementById('servicio-error').classList.add('active');
+      isValid = false;
+    } else {
+      document.getElementById('servicio-error').classList.remove('active');
+    }
+    
+    if (!motivo) {
+      document.getElementById('motivo-error').textContent = 'El motivo es obligatorio';
+      document.getElementById('motivo-error').classList.add('active');
+      isValid = false;
+    } else {
+      document.getElementById('motivo-error').classList.remove('active');
+    }
+    
+    if (!isValid) {
+      showToast('Por favor, completa todos los campos requeridos', 'error');
+      return;
+    }
+    
+    // En una implementación real, se crearía la cita
+    showToast('Cita creada exitosamente', 'success');
+    
+    // Redirigir a la lista de citas
+    setTimeout(() => {
+      navigate('/doctor/citas');
+    }, 1000);
+  }
+  
+  function renderSintomas() {
+    const container = document.querySelector('.sintomas-container');
+    if (!container) return;
+    
+    const sintomasList = getSintomas();
+    let html = '';
+    
+    sintomasList.forEach(sintoma => {
+      html += `
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="sintomas" value="${sintoma.id}">
+            <span class="checkmark"></span>
+            ${sintoma.nombre}
+          </label>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  }
+});
+</script>

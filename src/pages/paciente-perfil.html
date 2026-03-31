@@ -1,0 +1,185 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/paciente/portal" data-link class="back-button">← Regresar</a>
+      <h1>Mi Perfil</h1>
+      <p>Gestiona tu información personal y cuenta</p>
+    </div>
+    
+    <div class="grid grid-2">
+      <div>
+        <div class="card">
+          <h3>Información Personal</h3>
+          
+          <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" value="María González" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="cedula">Cédula de Identidad</label>
+            <input type="text" id="cedula" value="V23456789" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="fecha-nacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="fecha-nacimiento" value="1988-05-12" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" required>
+              <option value="F" selected>Femenino</option>
+              <option value="M">Masculino</option>
+              <option value="O">Otro</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="estado-civil">Estado Civil</label>
+            <select id="estado-civil" required>
+              <option value="casado" selected>Casado(a)</option>
+              <option value="soltero">Soltero(a)</option>
+              <option value="divorciado">Divorciado(a)</option>
+              <option value="viudo">Viudo(a)</option>
+              <option value="unión-libre">Unión Libre</option>
+            </select>
+          </div>
+          
+          <button class="btn btn-primary" id="save-profile">Guardar Cambios</button>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card">
+          <h3>Información de Contacto</h3>
+          
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="text" id="telefono" value="+58 414-5556677" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" value="maria@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <textarea id="direccion" rows="3" required>Av. Principal, Edif. Médico, Piso 2, Consultorio 205, Caracas</textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="contacto-emergencia">Contacto de Emergencia</label>
+            <input type="text" id="contacto-emergencia" value="Juan González" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="relacion-emergencia">Relación</label>
+            <input type="text" id="relacion-emergencia" value="Esposo" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="telefono-emergencia">Teléfono de Emergencia</label>
+            <input type="text" id="telefono-emergencia" value="+58 412-1234567" required>
+          </div>
+          
+          <button class="btn btn-primary" id="save-contact">Guardar Cambios</button>
+        </div>
+        
+        <div class="card" style="margin-top: var(--space-4);">
+          <h3>Cambiar Contraseña</h3>
+          
+          <div class="form-group">
+            <label for="password-current">Contraseña Actual</label>
+            <input type="password" id="password-current" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="password-new">Nueva Contraseña</label>
+            <input type="password" id="password-new" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="password-confirm">Confirmar Nueva Contraseña</label>
+            <input type="password" id="password-confirm" required>
+          </div>
+          
+          <button class="btn btn-primary" id="change-password">Cambiar Contraseña</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar guardado de perfil
+  document.getElementById('save-profile').addEventListener('click', saveProfile);
+  document.getElementById('save-contact').addEventListener('click', saveContact);
+  document.getElementById('change-password').addEventListener('click', changePassword);
+  
+  function saveProfile() {
+    const nombre = document.getElementById('nombre').value;
+    const cedula = document.getElementById('cedula').value;
+    const fechaNacimiento = document.getElementById('fecha-nacimiento').value;
+    const sexo = document.getElementById('sexo').value;
+    const estadoCivil = document.getElementById('estado-civil').value;
+    
+    // Validar campos
+    if (!nombre || !cedula || !fechaNacimiento || !sexo || !estadoCivil) {
+      showToast('Por favor, completa todos los campos requeridos', 'error');
+      return;
+    }
+    
+    // En una implementación real, se actualizaría el perfil
+    showToast('Perfil actualizado exitosamente', 'success');
+  }
+  
+  function saveContact() {
+    const telefono = document.getElementById('telefono').value;
+    const email = document.getElementById('email').value;
+    const direccion = document.getElementById('direccion').value;
+    const contactoEmergencia = document.getElementById('contacto-emergencia').value;
+    const relacionEmergencia = document.getElementById('relacion-emergencia').value;
+    const telefonoEmergencia = document.getElementById('telefono-emergencia').value;
+    
+    // Validar campos
+    if (!telefono || !email || !direccion || !contactoEmergencia || !relacionEmergencia || !telefonoEmergencia) {
+      showToast('Por favor, completa todos los campos requeridos', 'error');
+      return;
+    }
+    
+    // En una implementación real, se actualizaría el contacto
+    showToast('Información de contacto actualizada', 'success');
+  }
+  
+  function changePassword() {
+    const current = document.getElementById('password-current').value;
+    const newPassword = document.getElementById('password-new').value;
+    const confirm = document.getElementById('password-confirm').value;
+    
+    // Validar campos
+    if (!current || !newPassword || !confirm) {
+      showToast('Por favor, completa todos los campos', 'error');
+      return;
+    }
+    
+    if (newPassword !== confirm) {
+      showToast('Las contraseñas no coinciden', 'error');
+      return;
+    }
+    
+    if (newPassword.length < 6) {
+      showToast('La contraseña debe tener al menos 6 caracteres', 'error');
+      return;
+    }
+    
+    // En una implementación real, se cambiaría la contraseña
+    showToast('Contraseña cambiada exitosamente', 'success');
+    document.getElementById('password-current').value = '';
+    document.getElementById('password-new').value = '';
+    document.getElementById('password-confirm').value = '';
+  }
+});
+</script>

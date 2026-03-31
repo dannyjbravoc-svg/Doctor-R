@@ -1,0 +1,169 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/doctor/citas" data-link class="back-button">← Regresar</a>
+      <h1>Editar Cita</h1>
+      <p>Modifica los detalles de la cita médica</p>
+    </div>
+    
+    <div class="card" style="margin-bottom: var(--space-4);">
+      <h3>Información del Paciente</h3>
+      
+      <div class="info-list">
+        <div>
+          <strong>Nombre:</strong> María González
+        </div>
+        <div>
+          <strong>Cédula:</strong> V23456789
+        </div>
+        <div>
+          <strong>Edad:</strong> 35 años
+        </div>
+        <div>
+          <strong>Teléfono:</strong> +58 414-5556677
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid grid-2" style="margin-bottom: var(--space-4);">
+      <div>
+        <div class="card">
+          <h3>Detalles de la Cita</h3>
+          
+          <div class="form-group">
+            <label for="servicio">Servicio Médico</label>
+            <select id="servicio" class="form-select" required>
+              <option value="srv_001" selected>Consulta General ($25.00 USD)</option>
+              <option value="srv_002">Curas y Curaciones ($15.00 USD)</option>
+              <option value="srv_003">Colocación de Yeso ($40.00 USD)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" value="2023-05-15" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="hora">Hora</label>
+            <select id="hora" class="form-select" required>
+              <option value="08:00">08:00 AM</option>
+              <option value="08:30">08:30 AM</option>
+              <option value="09:00" selected>09:00 AM</option>
+              <option value="09:30">09:30 AM</option>
+              <option value="10:00">10:00 AM</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="duracion">Duración (min)</label>
+            <input type="number" id="duracion" value="30" min="15" max="120" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="estado">Estado</label>
+            <select id="estado" class="form-select" required>
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada" selected>Confirmada</option>
+              <option value="completada">Completada</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card">
+          <h3>Detalles Clínicos</h3>
+          
+          <div class="form-group">
+            <label for="motivo">Motivo de la Consulta</label>
+            <textarea id="motivo" rows="4" required>Control de presión arterial</textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="sintomas">Síntomas</label>
+            <div class="sintomas-container">
+              <!-- Síntomas se cargarán dinámicamente -->
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="notas">Notas Médicas</label>
+            <textarea id="notas" rows="4">Paciente con presión arterial estable, continuar con medicación actual</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card" style="margin-bottom: var(--space-4);">
+      <h3>Historial de Cambios</h3>
+      
+      <div class="history-timeline">
+        <div class="timeline-event">
+          <div class="timeline-date">15/05/2023 10:00</div>
+          <div class="timeline-content">
+            <h4>Cita creada</h4>
+            <p>Estado inicial: Pendiente</p>
+          </div>
+        </div>
+        
+        <div class="timeline-event">
+          <div class="timeline-date">16/05/2023 14:30</div>
+          <div class="timeline-content">
+            <h4>Cita confirmada</h4>
+            <p>Estado actualizado a: Confirmada</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: right;">
+      <button type="button" class="btn btn-outline" id="cancelar-edicion">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="guardar-cambios">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar guardado
+  document.getElementById('guardar-cambios').addEventListener('click', guardarCambios);
+  document.getElementById('cancelar-edicion').addEventListener('click', () => navigate('/doctor/citas'));
+  
+  // Renderizar síntomas
+  renderSintomas();
+  
+  function guardarCambios() {
+    // En una implementación real, se guardarían los cambios
+    showToast('Cambios guardados exitosamente', 'success');
+    
+    // Redirigir a la lista de citas
+    setTimeout(() => {
+      navigate('/doctor/citas');
+    }, 1000);
+  }
+  
+  function renderSintomas() {
+    const container = document.querySelector('.sintomas-container');
+    if (!container) return;
+    
+    const sintomasList = getSintomas();
+    let html = '';
+    
+    sintomasList.forEach(sintoma => {
+      html += `
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="sintomas" value="${sintoma.id}" ${sintoma.id === 'dolor-cabeza' || sintoma.id === 'mareos' ? 'checked' : ''}>
+            <span class="checkmark"></span>
+            ${sintoma.nombre}
+          </label>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  }
+});
+</script>

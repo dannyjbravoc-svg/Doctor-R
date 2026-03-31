@@ -1,0 +1,180 @@
+/* Animaciones y transiciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Transiciones comunes */
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.3s ease forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.3s ease forwards;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.3s ease forwards;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Transiciones para componentes */
+.btn:hover {
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  transition: all 0.2s ease;
+}
+
+.table tr:hover {
+  transition: all 0.2s ease;
+}
+
+/* Animación para notificaciones */
+.toast {
+  animation: slideIn 0.3s ease;
+}
+
+.toast-success {
+  animation: slideIn 0.3s ease;
+}
+
+.toast-error {
+  animation: slideIn 0.3s ease;
+}
+
+.toast-warning {
+  animation: slideIn 0.3s ease;
+}
+
+.toast-info {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animación para carga */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animación para barra de progreso */
+.progress-bar {
+  transition: width 0.2s ease;
+}
+
+/* Animación para elementos en vista */
+.animated {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.animated.appear {
+  opacity: 1;
+  transform: translateY(0);
+}

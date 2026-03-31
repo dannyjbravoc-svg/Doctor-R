@@ -1,0 +1,258 @@
+/* Estilos para formularios */
+.input-group {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  transition: border-color 200ms;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.input.error {
+  border-color: var(--color-danger);
+}
+
+.input-group .error-message {
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+  display: none;
+}
+
+.input-group .error-message.active {
+  display: block;
+}
+
+.input-icon {
+  position: absolute;
+  right: var(--space-2);
+  top: calc(50% - 10px);
+  color: var(--color-gray-400);
+}
+
+.input-icon.error {
+  color: var(--color-danger);
+}
+
+/* Formularios de registro */
+.registration-form {
+  margin-top: var(--space-6);
+}
+
+.registration-step {
+  display: none;
+}
+
+.registration-step.active {
+  display: block;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+.step-title {
+  font-size: var(--text-lg);
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-6);
+}
+
+/* Formulario de login */
+.auth-container {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  padding: var(--space-8) 0;
+}
+
+.auth-card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-8);
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.auth-header h1 {
+  font-size: var(--text-2xl);
+  color: var(--color-gray-800);
+}
+
+.auth-header p {
+  color: var(--color-gray-600);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-4);
+  color: var(--color-gray-600);
+  font-size: var(--text-sm);
+}
+
+.auth-footer a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Formulario de pago */
+.payment-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+.payment-method {
+  padding: var(--space-4);
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  transition: all 200ms;
+  cursor: pointer;
+}
+
+.payment-method:hover,
+.payment-method.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.payment-method-icon {
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.payment-method-title {
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.payment-method-description {
+  color: var(--color-gray-600);
+  font-size: var(--text-sm);
+}
+
+.payment-details {
+  margin-top: var(--space-4);
+  display: none;
+}
+
+.payment-details.active {
+  display: block;
+}
+
+/* Subida de archivos */
+.file-upload {
+  border: 2px dashed var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: center;
+  transition: all 200ms;
+  cursor: pointer;
+}
+
+.file-upload:hover,
+.file-upload.drag-over {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.file-upload-icon {
+  font-size: 2rem;
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-2);
+}
+
+.file-upload p {
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-2);
+}
+
+.file-upload input {
+  display: none;
+}
+
+.file-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.file-preview-item {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 150px;
+  background: var(--color-gray-100);
+}
+
+.file-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-preview-remove {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

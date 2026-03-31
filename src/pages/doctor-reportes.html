@@ -1,0 +1,212 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Reportes e Informes</h1>
+      <p>Genera y visualiza informes detallados de tu práctica médica</p>
+    </div>
+    
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="periodo-filter">Periodo:</label>
+        <select id="periodo-filter" class="form-select">
+          <option value="semana">Última semana</option>
+          <option value="mes">Este mes</option>
+          <option value="trimestre">Último trimestre</option>
+          <option value="anio">Este año</option>
+          <option value="personalizado">Personalizado</option>
+        </select>
+      </div>
+      
+      <div class="filter-group" id="fecha-range" style="display: none;">
+        <label>Fecha de inicio:</label>
+        <input type="date" id="fecha-inicio" class="form-select">
+        <label style="margin-left: var(--space-2);">Fecha fin:</label>
+        <input type="date" id="fecha-fin" class="form-select">
+      </div>
+      
+      <div class="filter-group">
+        <label for="tipo-filter">Tipo de Reporte:</label>
+        <select id="tipo-filter" class="form-select">
+          <option value="ingresos">Ingresos</option>
+          <option value="pacientes">Pacientes</option>
+          <option value="condiciones">Condiciones Médicas</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="reportes-container">
+      <div class="reporte-card">
+        <div class="reporte-header">
+          <h3>Resumen de Ingresos</h3>
+          <div class="btn-group">
+            <button class="btn btn-sm" id="export-pdf">Exportar PDF</button>
+          </div>
+        </div>
+        
+        <div class="grid grid-3" style="margin-top: var(--space-4);">
+          <div class="card">
+            <h4>Ingresos USD</h4>
+            <p class="stat-value">$150.00</p>
+            <p class="stat-description">Este mes</p>
+          </div>
+          
+          <div class="card">
+            <h4>Ingresos Bs</h4>
+            <p class="stat-value">Bs 5,475.00</p>
+            <p class="stat-description">Este mes</p>
+          </div>
+          
+          <div class="card">
+            <h4>Total Pagos</h4>
+            <p class="stat-value">5</p>
+            <p class="stat-description">Este mes</p>
+          </div>
+        </div>
+        
+        <div class="chart-container" style="margin-top: var(--space-6);">
+          <canvas id="ingresosChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+      
+      <div class="reporte-card" style="margin-top: var(--space-6);">
+        <div class="reporte-header">
+          <h3>Distribución de Servicios</h3>
+        </div>
+        
+        <div class="grid grid-2" style="margin-top: var(--space-4);">
+          <div class="card">
+            <canvas id="serviciosChart" width="400" height="200"></canvas>
+          </div>
+          
+          <div class="card">
+            <h4>Detalles por Servicio</h4>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Servicio</th>
+                  <th>USD</th>
+                  <th>Bs</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Consulta General</td>
+                  <td>$75.00</td>
+                  <td>Bs 2,737.50</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>Control de Diabetes</td>
+                  <td>$60.00</td>
+                  <td>Bs 2,190.00</td>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>Curas y Curaciones</td>
+                  <td>$15.00</td>
+                  <td>Bs 547.50</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div class="reporte-card" style="margin-top: var(--space-6);">
+        <div class="reporte-header">
+          <h3>Estadísticas de Pacientes</h3>
+        </div>
+        
+        <div class="grid grid-2" style="margin-top: var(--space-4);">
+          <div class="card">
+            <h4>Nuevos Pacientes</h4>
+            <p class="stat-value">2</p>
+            <p class="stat-description">Este mes</p>
+          </div>
+          
+          <div class="card">
+            <h4>Pacientes Recurrentes</h4>
+            <p class="stat-value">3</p>
+            <p class="stat-description">Este mes</p>
+          </div>
+        </div>
+        
+        <div class="chart-container" style="margin-top: var(--space-4);">
+          <canvas id="pacientesChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar filtros
+  document.getElementById('periodo-filter').addEventListener('change', handleFilterChange);
+  document.getElementById('tipo-filter').addEventListener('change', handleFilterChange);
+  
+  // Configurar rango de fechas personalizado
+  document.getElementById('periodo-filter').addEventListener('change', (e) => {
+    const isCustom = e.target.value === 'personalizado';
+    document.getElementById('fecha-range').style.display = isCustom ? 'flex' : 'none';
+    
+    if (isCustom) {
+      // Establecer fechas predeterminadas para hoy y hace un mes
+      const today = new Date();
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      
+      document.getElementById('fecha-inicio').value = lastMonth.toISOString().split('T')[0];
+      document.getElementById('fecha-fin').value = today.toISOString().split('T')[0];
+    }
+  });
+  
+  // Configurar exportación
+  document.getElementById('export-pdf').addEventListener('click', exportToPDF);
+  
+  // Inicializar gráficos
+  renderCharts();
+  
+  function handleFilterChange() {
+    renderCharts();
+  }
+  
+  function renderCharts() {
+    // Gráfico de ingresos
+    const ingresosData = [150, 220, 180, 250, 200];
+    const dias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'];
+    createBarChart('ingresosChart', dias, ingresosData, {
+      title: 'Ingresos por Día',
+      barColor: '#2563EB',
+      maxValue: 300
+    });
+    
+    // Gráfico de distribución de servicios
+    const serviciosData = [45, 30, 20, 5];
+    const serviciosLabels = ['Consulta General', 'Control Diabetes', 'Otro', 'Emergencia'];
+    createPieChart('serviciosChart', serviciosLabels, serviciosData, {
+      title: 'Distribución de Servicios',
+      showValues: true
+    });
+    
+    // Gráfico de pacientes
+    const pacientesData = [2, 3, 1];
+    const pacientesLabels = ['Nuevos', 'Recurrentes', 'Otro'];
+    createPieChart('pacientesChart', pacientesLabels, pacientesData, {
+      title: 'Distribución de Pacientes',
+      showValues: true
+    });
+  }
+  
+  function exportToPDF() {
+    showToast('Exportando reporte a PDF...', 'info');
+    
+    // En una implementación real, se generaría el PDF
+    setTimeout(() => {
+      showToast('Reporte exportado exitosamente', 'success');
+    }, 1000);
+  }
+});
+</script>

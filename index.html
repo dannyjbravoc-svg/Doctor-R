@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema médico profesional con manejo monetario dual para Venezuela">
+    <meta name="keywords" content="sistema médico, Venezuela, USD, Bs, clínica, gestión médica">
+    <meta name="author" content="MediVzla Team">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Twitter Card -->
+    <meta property="og:title" content="MediVzla - Sistema Médico Profesional">
+    <meta property="og:description" content="Sistema médico moderno con manejo monetario dual para profesionales de la salud en Venezuela">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    <meta property="og:url" content="https://medivzla.netlify.app">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@medivzla">
+    <meta name="twitter:title" content="MediVzla - Sistema Médico Profesional">
+    <meta name="twitter:description" content="Sistema médico moderno con manejo monetario dual para profesionales de la salud en Venezuela">
+    <meta name="twitter:image" content="assets/images/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="assets/images/favicon/safari-pinned-tab.svg" color="#1a64b0">
+    <meta name="msapplication-TileColor" content="#1a64b0">
+    <meta name="theme-color" content="#1a64b0">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/variables.css">
+    <link rel="stylesheet" href="src/css/reset.css">
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/layout.css">
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/forms.css">
+    <link rel="stylesheet" href="src/css/tables.css">
+    <link rel="stylesheet" href="src/css/calendar.css">
+    <link rel="stylesheet" href="src/css/navigation.css">
+    <link rel="stylesheet" href="src/css/responsive.css">
+    <link rel="stylesheet" href="src/css/animations.css">
+    <link rel="stylesheet" href="src/css/print.css">
+    <link rel="stylesheet" href="src/css/darkmode.css">
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Title -->
+    <title>MediVzla - Sistema Médico Profesional</title>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo" data-link>
+                <img src="assets/images/logo-medivzla.svg" alt="MediVzla" class="logo-img">
+                <span class="logo-text">Medi<span>VZLA</span></span>
+            </a>
+            
+            <nav class="nav" id="mainNav">
+                <ul class="nav-list">
+                    <li><a href="/nosotros" data-link>Nosotros</a></li>
+                    <li><a href="/contacto" data-link>Contacto</a></li>
+                    <li><a href="/faq" data-link>FAQ</a></li>
+                    <li><a href="/doctor/login" data-link class="btn btn-outline">Ingresar</a></li>
+                </ul>
+            </nav>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div id="app-content">
+                <!-- Contenido dinámico cargado por el router -->
+                <!-- El router inicializará el contenido correcto -->
+                <div class="hero-section" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                    <div class="container" style="text-align: center; max-width: 800px;">
+                        <h1 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Sistema Médico Profesional para Venezuela</h1>
+                        <p style="font-size: 1.25rem; margin-bottom: 2rem; color: var(--color-gray-600);">Gestiona tus consultas médicas, pacientes y pagos con un sistema moderno que soporta el manejo monetario dual (USD/Bs).</p>
+                        <div class="hero-buttons">
+                            <a href="/doctor/login" class="btn btn-primary" style="margin-right: 1rem;">Ingresar como Doctor</a>
+                            <a href="/paciente/registro" class="btn btn-outline">Registrarse como Paciente</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="/" class="logo" data-link>
+                        <img src="assets/images/logo-medivzla-white.svg" alt="MediVzla" class="logo-img">
+                        <span>Medi<span>VZLA</span></span>
+                    </a>
+                    <p>Sistema médico moderno para profesionales de la salud en Venezuela con manejo monetario dual.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Navegación</h3>
+                    <ul class="footer-links">
+                        <li><a href="/nosotros" data-link>Nosotros</a></li>
+                        <li><a href="/contacto" data-link>Contacto</a></li>
+                        <li><a href="/faq" data-link>FAQ</a></li>
+                        <li><a href="/terminos" data-link>Términos</a></li>
+                        <li><a href="/privacidad" data-link>Privacidad</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Para Doctores</h3>
+                    <ul class="footer-links">
+                        <li><a href="/doctor/login" data-link>Iniciar Sesión</a></li>
+                        <li><a href="/doctor/dashboard" data-link>Dashboard</a></li>
+                        <li><a href="/doctor/servicios" data-link>Servicios</a></li>
+                        <li><a href="/doctor/monedero" data-link>Monedero</a></li>
+                        <li><a href="/doctor/pacientes" data-link>Pacientes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Para Pacientes</h3>
+                    <ul class="footer-links">
+                        <li><a href="/paciente/registro" data-link>Registro</a></li>
+                        <li><a href="/paciente/login" data-link>Iniciar Sesión</a></li>
+                        <li><a href="/paciente/portal" data-link>Portal</a></li>
+                        <li><a href="/paciente/agendar" data-link>Agendar Cita</a></li>
+                        <li><a href="/paciente/mis-citas" data-link>Mis Citas</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 MediVzla. Todos los derechos reservados.</p>
+                <p>Desarrollado con ❤️ para profesionales de la salud en Venezuela</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <!-- Scripts -->
+    <script src="src/js/utils.js"></script>
+    <script src="src/js/storage.js"></script>
+    <script src="src/js/currency.js"></script>
+    <script src="src/js/auth.js"></script>
+    <script src="src/js/router.js"></script>
+    <script src="src/js/ui.js"></script>
+    <script src="src/js/app.js"></script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalBusiness",
+      "name": "MediVzla",
+      "description": "Sistema médico profesional para clínicas y profesionales de la salud en Venezuela",
+      "url": "https://medivzla.netlify.app",
+      "logo": "https://medivzla.netlify.app/assets/images/logo-medivzla.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "contacto@medivzla.netlify.app",
+        "telephone": "+58 412-1234567"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. Principal, Edif. Médico, Piso 2",
+        "addressLocality": "Caracas",
+        "addressCountry": "VE"
+      },
+      "openingHours": "Mo-Fr 08:00-17:00",
+      "sameAs": [
+        "https://facebook.com/medivzla",
+        "https://twitter.com/medivzla",
+        "https://instagram.com/medivzla"
+      ]
+    }
+    </script>
+</body>
+</html>

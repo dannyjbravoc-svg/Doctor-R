@@ -1,0 +1,278 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/paciente/portal" data-link class="back-button">← Regresar</a>
+      <h1>Agendar Nueva Cita</h1>
+      <p>Sigue los pasos para agendar tu cita médica</p>
+    </div>
+    
+    <div class="registration-steps">
+      <!-- Paso 1: Seleccionar Servicio -->
+      <div class="step active" data-step="1">
+        <div class="step-header">
+          <div class="step-number">1</div>
+          <h2 class="step-title">Seleccionar Servicio</h2>
+        </div>
+        
+        <div class="services-grid">
+          <!-- Los servicios se cargarán dinámicamente con JavaScript -->
+          <div class="service-card" data-id="srv_001">
+            <div class="service-header">
+              <h3>Consulta General</h3>
+              <span class="service-price">$25.00 USD / Bs 912.50</span>
+            </div>
+            <p>Evaluación médica completa con diagnóstico y tratamiento inicial</p>
+            <div class="service-meta">
+              <span class="service-duration">30 min</span>
+            </div>
+            <button class="btn btn-primary service-select" data-id="srv_001">Seleccionar</button>
+          </div>
+          
+          <div class="service-card" data-id="srv_002">
+            <div class="service-header">
+              <h3>Curas y Curaciones</h3>
+              <span class="service-price">$15.00 USD / Bs 547.50</span>
+            </div>
+            <p>Tratamiento de heridas y curaciones post-operatorias</p>
+            <div class="service-meta">
+              <span class="service-duration">20 min</span>
+            </div>
+            <button class="btn btn-primary service-select" data-id="srv_002">Seleccionar</button>
+          </div>
+          
+          <div class="service-card" data-id="srv_003">
+            <div class="service-header">
+              <h3>Colocación de Yeso</h3>
+              <span class="service-price">$40.00 USD / Bs 1,460.00</span>
+            </div>
+            <p>Inmovilización de extremidades con yeso</p>
+            <div class="service-meta">
+              <span class="service-duration">40 min</span>
+            </div>
+            <button class="btn btn-primary service-select" data-id="srv_003">Seleccionar</button>
+          </div>
+        </div>
+        
+        <div class="step-actions">
+          <div></div>
+          <button type="button" class="btn btn-primary next-step" data-step="2" disabled id="continue-step1">Siguiente</button>
+        </div>
+      </div>
+      
+      <!-- Paso 2: Fecha y Hora -->
+      <div class="step" data-step="2">
+        <div class="step-header">
+          <div class="step-number">2</div>
+          <h2 class="step-title">Seleccionar Fecha y Hora</h2>
+        </div>
+        
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <h2 class="calendar-title">Calendario</h2>
+            <div class="calendar-nav">
+              <button class="btn btn-icon calendar-prev">&lt;</button>
+              <button class="btn btn-icon calendar-next">&gt;</button>
+            </div>
+          </div>
+          
+          <div class="month-view">
+            <div class="weekdays">
+              <div class="weekday">Dom</div>
+              <div class="weekday">Lun</div>
+              <div class="weekday">Mar</div>
+              <div class="weekday">Mié</div>
+              <div class="weekday">Jue</div>
+              <div class="weekday">Vie</div>
+              <div class="weekday">Sáb</div>
+            </div>
+            
+            <div class="month-grid">
+              <!-- Días del mes - se generarán dinámicamente -->
+            </div>
+          </div>
+        </div>
+        
+        <div class="horarios-disponibles" style="margin-top: var(--space-4);">
+          <h3>Horarios Disponibles para <span id="selected-date">15/05/2023</span></h3>
+          <div class="horarios-grid">
+            <button class="btn btn-outline horario-select" data-hora="08:00">08:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="08:30">08:30 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="09:00">09:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="09:30">09:30 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="10:00">10:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="10:30">10:30 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="11:00">11:00 AM</button>
+            <button class="btn btn-outline horario-select" data-hora="11:30">11:30 AM</button>
+          </div>
+        </div>
+        
+        <div class="step-actions">
+          <button type="button" class="btn btn-outline prev-step" data-step="1">Atrás</button>
+          <button type="button" class="btn btn-primary next-step" data-step="3" disabled id="continue-step2">Siguiente</button>
+        </div>
+      </div>
+      
+      <!-- Paso 3: Motivo y Confirmación -->
+      <div class="step" data-step="3">
+        <div class="step-header">
+          <div class="step-number">3</div>
+          <h2 class="step-title">Motivo de la Consulta</h2>
+        </div>
+        
+        <form id="step3-form" class="auth-form">
+          <div class="form-group">
+            <label for="motivo">Describe tus síntomas o motivo de consulta</label>
+            <textarea id="motivo" rows="4" required></textarea>
+            <div class="error-message" id="motivo-error"></div>
+          </div>
+          
+          <div class="form-group">
+            <label>Selecciona tus síntomas</label>
+            <div class="sintomas-container">
+              <!-- Síntomas se cargarán dinámicamente -->
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="primera-vez">
+              <span class="checkmark"></span>
+              Es mi primera vez con este doctor
+            </label>
+          </div>
+          
+          <div class="resumen-cita">
+            <h3>Resumen de tu Cita</h3>
+            <div class="resumen-item">
+              <strong>Servicio:</strong> <span id="resumen-servicio">Consulta General</span>
+            </div>
+            <div class="resumen-item">
+              <strong>Precio:</strong> <span id="resumen-precio">$25.00 USD / Bs 912.50</span>
+            </div>
+            <div class="resumen-item">
+              <strong>Fecha:</strong> <span id="resumen-fecha">15/05/2023</span>
+            </div>
+            <div class="resumen-item">
+              <strong>Hora:</strong> <span id="resumen-hora">09:00 AM</span>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button type="button" class="btn btn-outline prev-step" data-step="2">Atrás</button>
+            <button type="submit" class="btn btn-primary">Confirmar Cita</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar navegación entre pasos
+  document.querySelectorAll('.next-step').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const step = parseInt(e.target.dataset.step);
+      goToStep(step);
+    });
+  });
+  
+  document.querySelectorAll('.prev-step').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const step = parseInt(e.target.dataset.step);
+      goToStep(step);
+    });
+  });
+  
+  // Configurar selección de servicios
+  document.querySelectorAll('.service-select').forEach(btn => {
+    btn.addEventListener('click', selectService);
+  });
+  
+  // Configurar selección de horarios
+  document.querySelectorAll('.horario-select').forEach(btn => {
+    btn.addEventListener('click', selectHorario);
+  });
+  
+  // Configurar formulario de paso 3
+  document.getElementById('step3-form').addEventListener('submit', confirmCita);
+  
+  // Renderizar síntomas
+  renderSintomas();
+  
+  function goToStep(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+  }
+  
+  function selectService(e) {
+    const servicioId = e.target.dataset.id;
+    
+    // En una implementación real, se guardaría la selección
+    document.getElementById('continue-step1').removeAttribute('disabled');
+    document.getElementById('continue-step1').classList.remove('btn-outline');
+    document.getElementById('continue-step1').classList.add('btn-primary');
+    
+    showToast('Servicio seleccionado', 'success');
+  }
+  
+  function selectHorario(e) {
+    document.querySelectorAll('.horario-select').forEach(btn => {
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-outline');
+    });
+    
+    e.target.classList.remove('btn-outline');
+    e.target.classList.add('btn-primary');
+    
+    document.getElementById('continue-step2').removeAttribute('disabled');
+    document.getElementById('continue-step2').classList.remove('btn-outline');
+    document.getElementById('continue-step2').classList.add('btn-primary');
+    
+    // Actualizar resumen
+    document.getElementById('resumen-hora').textContent = e.target.dataset.hora;
+  }
+  
+  function confirmCita(e) {
+    e.preventDefault();
+    
+    // Validar formulario
+    const motivo = document.getElementById('motivo').value;
+    if (!motivo) {
+      document.getElementById('motivo-error').textContent = 'El motivo es obligatorio';
+      document.getElementById('motivo-error').classList.add('active');
+      return;
+    }
+    
+    // En una implementación real, se registraría la cita
+    showToast('Cita confirmada exitosamente', 'success');
+    
+    // Redirigir al portal después de un breve retraso
+    setTimeout(() => {
+      navigate('/paciente/mis-citas');
+    }, 1000);
+  }
+  
+  function renderSintomas() {
+    const container = document.querySelector('.sintomas-container');
+    if (!container) return;
+    
+    const sintomasList = getSintomas();
+    let html = '';
+    
+    sintomasList.forEach(sintoma => {
+      html += `
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="sintomas" value="${sintoma.id}">
+            <span class="checkmark"></span>
+            ${sintoma.nombre}
+          </label>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  }
+});
+</script>

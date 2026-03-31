@@ -1,0 +1,140 @@
+/* Estilos para impresión */
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  .header,
+  .footer,
+  .nav,
+  .sidebar,
+  .mobile-nav,
+  .app-loading,
+  .toast-container,
+  .modal-overlay {
+    display: none;
+  }
+  
+  .section {
+    padding: 0 0 20pt;
+    page-break-inside: avoid;
+  }
+  
+  .section-title {
+    font-size: 18pt;
+    margin-bottom: 10pt;
+    page-break-after: avoid;
+  }
+  
+  .section-description {
+    font-size: 12pt;
+    margin-bottom: 20pt;
+  }
+  
+  .card {
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+  
+  .table-container {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .table {
+    border: 1px solid #000;
+    width: 100%;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #000;
+    padding: 8px;
+  }
+  
+  .table th {
+    background: #f2f2f2;
+  }
+  
+  .table tr:hover {
+    background: none !important;
+  }
+  
+  .history-timeline::before {
+    background: #000;
+  }
+  
+  .timeline-event::before {
+    background: #000;
+    border-color: #fff;
+    box-shadow: 0 0 0 2px #000;
+  }
+  
+  img {
+    max-height: 100px;
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+  
+  .invoice-header {
+    text-align: center;
+    border-bottom: 1px solid #000;
+    padding-bottom: 10pt;
+    margin-bottom: 20pt;
+  }
+  
+  .invoice-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20pt;
+    margin-bottom: 20pt;
+  }
+  
+  .invoice-items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20pt;
+  }
+  
+  .invoice-items th,
+  .invoice-items td {
+    border: 1px solid #000;
+    padding: 8px;
+  }
+  
+  .invoice-total {
+    text-align: right;
+    font-weight: bold;
+    font-size: 14pt;
+    margin-top: 20pt;
+  }
+  
+  .signature {
+    margin-top: 50pt;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .signature-line {
+    width: 40%;
+    border-top: 1px solid #000;
+    padding-top: 5pt;
+    text-align: center;
+  }
+}

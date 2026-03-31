@@ -1,0 +1,117 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Bienvenido, María González</h1>
+      <p>Tu portal médico personal</p>
+    </div>
+    
+    <div class="quick-actions">
+      <h2>Acciones Rápidas</h2>
+      <div class="quick-actions-grid">
+        <a href="/paciente/agendar" data-link class="quick-action-card">
+          <div class="quick-action-icon">📅</div>
+          <h3>Agendar Nueva Cita</h3>
+        </a>
+        
+        <a href="/paciente/mis-citas" data-link class="quick-action-card">
+          <div class="quick-action-icon">👥</div>
+          <h3>Mis Citas</h3>
+        </a>
+        
+        <a href="/paciente/pagos" data-link class="quick-action-card">
+          <div class="quick-action-icon">💰</div>
+          <h3>Realizar Pago</h3>
+        </a>
+        
+        <a href="/paciente/historial" data-link class="quick-action-card">
+          <div class="quick-action-icon">📝</div>
+          <h3>Mi Historial Médico</h3>
+        </a>
+      </div>
+    </div>
+    
+    <div class="grid grid-2" style="margin-top: var(--space-6);">
+      <div>
+        <div class="card">
+          <h3>Próximas Citas</h3>
+          
+          <div class="appointment-item" style="margin-top: var(--space-4);">
+            <div class="appointment-time">09:00 AM</div>
+            <div class="appointment-details">
+              <h3>Dr. Carlos Rodríguez</h3>
+              <p>Consulta General</p>
+              <span class="appointment-status status-confirmada">Confirmada</span>
+            </div>
+            <div class="appointment-actions">
+              <button class="btn btn-icon">👁️</button>
+            </div>
+          </div>
+          
+          <div class="appointment-item" style="margin-top: var(--space-4);">
+            <div class="appointment-time">10:00 AM</div>
+            <div class="appointment-details">
+              <h3>Dr. Carlos Rodríguez</h3>
+              <p>Control de Diabetes</p>
+              <span class="appointment-status status-pendiente">Pendiente</span>
+            </div>
+            <div class="appointment-actions">
+              <button class="btn btn-icon">👁️</button>
+            </div>
+          </div>
+          
+          <div style="text-align: right; margin-top: var(--space-4);">
+            <a href="/paciente/mis-citas" data-link class="btn btn-sm">Ver todas</a>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card">
+          <h3>Mi Historial Médico</h3>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Condiciones Crónicas</h4>
+            <div class="conditions-grid">
+              <span class="condition-tag">Hipertensión arterial</span>
+            </div>
+          </div>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Medicamentos Actuales</h4>
+            <p>Enalapril 10mg diario</p>
+          </div>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Última Consulta</h4>
+            <p>15/05/2023 - Consulta General</p>
+          </div>
+          
+          <div style="text-align: right; margin-top: var(--space-4);">
+            <a href="/paciente/historial" data-link class="btn btn-sm">Ver completo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section" style="margin-top: var(--space-6);">
+      <h2>Noticias Médicas</h2>
+      <div class="news-grid">
+        <div class="news-card">
+          <img src="assets/images/news1.jpg" alt="Noticia" style="width:100%; border-radius: var(--radius-xl);">
+          <div class="news-content">
+            <h3>Nuevo Protocolo para el Manejo de la Hipertensión</h3>
+            <p>El Ministerio de Salud ha publicado un nuevo protocolo para el manejo de la hipertensión en adultos. Conoce los cambios clave...</p>
+          </div>
+        </div>
+        
+        <div class="news-card">
+          <img src="assets/images/news2.jpg" alt="Noticia" style="width:100%; border-radius: var(--radius-xl);">
+          <div class="news-content">
+            <h3>Importancia de la Prevención en Diabetes</h3>
+            <p>La diabetes es una de las principales causas de complicaciones médicas. Aprende cómo prevenirla y manejarla efectivamente...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

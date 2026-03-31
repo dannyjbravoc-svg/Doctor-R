@@ -1,0 +1,165 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Gestión de Citas</h1>
+      <p>Administra y programa citas médicas</p>
+    </div>
+    
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="status-filter">Estado:</label>
+        <select id="status-filter" class="form-select">
+          <option value="all">Todos</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="confirmada">Confirmada</option>
+          <option value="completada">Completada</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="date-filter">Fecha:</label>
+        <input type="date" id="date-filter" class="form-select">
+      </div>
+      
+      <div class="filter-group">
+        <label for="search-filter">Buscar:</label>
+        <input type="text" id="search-filter" placeholder="Nombre o servicio..." class="form-select">
+      </div>
+    </div>
+    
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <h2 class="calendar-title">Calendario</h2>
+        <div class="calendar-nav">
+          <button class="btn btn-icon calendar-prev">&lt;</button>
+          <button class="btn btn-icon calendar-next">&gt;</button>
+        </div>
+        
+        <div class="calendar-view-toggle">
+          <button class="view-btn view-month active">Mes</button>
+          <button class="view-btn view-week">Semana</button>
+          <button class="view-btn view-day">Día</button>
+        </div>
+      </div>
+      
+      <div class="month-view">
+        <!-- El calendario se generará dinámicamente con JavaScript -->
+        <div class="weekdays">
+          <div class="weekday">Dom</div>
+          <div class="weekday">Lun</div>
+          <div class="weekday">Mar</div>
+          <div class="weekday">Mié</div>
+          <div class="weekday">Jue</div>
+          <div class="weekday">Vie</div>
+          <div class="weekday">Sáb</div>
+        </div>
+        
+        <div class="month-grid">
+          <!-- Días del mes - se generarán dinámicamente -->
+        </div>
+      </div>
+      
+      <div class="week-view" style="display: none;">
+        <div class="hour-grid">
+          <div class="hour-label">08:00</div>
+          <div class="hour-divider"></div>
+          <div class="hour-label">09:00</div>
+          <div class="hour-divider"></div>
+          <!-- Más horas -->
+        </div>
+        
+        <div class="week-days">
+          <!-- Días de la semana con horas -->
+        </div>
+      </div>
+      
+      <div class="day-view" style="display: none;">
+        <div class="hour-grid">
+          <div class="hour-label">08:00</div>
+          <div class="hour-divider"></div>
+          <!-- Horas del día -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>Citas Programadas</h3>
+      <div class="citas-list">
+        <!-- Las citas se cargarán dinámicamente con JavaScript -->
+        <div class="appointment-item">
+          <div class="appointment-time">09:00 AM</div>
+          <div class="appointment-details">
+            <h3>María González</h3>
+            <p>Consulta General</p>
+            <span class="appointment-status status-confirmada">Confirmada</span>
+          </div>
+          <div class="appointment-actions">
+            <button class="btn btn-icon view-cita">👁️</button>
+            <button class="btn btn-icon edit-cita">✏️</button>
+            <button class="btn btn-icon delete-cita">🗑️</button>
+          </div>
+        </div>
+        
+        <div class="appointment-item">
+          <div class="appointment-time">10:00 AM</div>
+          <div class="appointment-details">
+            <h3>Pedro Martínez</h3>
+            <p>Control de Diabetes</p>
+            <span class="appointment-status status-pendiente">Pendiente</span>
+          </div>
+          <div class="appointment-actions">
+            <button class="btn btn-icon view-cita">👁️</button>
+            <button class="btn btn-icon edit-cita">✏️</button>
+            <button class="btn btn-icon delete-cita">🗑️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Inicializar el calendario
+  if (document.querySelector('.calendar-container')) {
+    initCalendar();
+  }
+  
+  // Inicializar las citas
+  renderCitas(getCitas());
+  
+  // Configurar filtros
+  document.getElementById('status-filter').addEventListener('change', filterCitas);
+  document.getElementById('date-filter').addEventListener('change', filterCitas);
+  document.getElementById('search-filter').addEventListener('input', debounce(filterCitas, 300));
+  
+  function filterCitas() {
+    const status = document.getElementById('status-filter').value;
+    const date = document.getElementById('date-filter').value;
+    const search = document.getElementById('search-filter').value.toLowerCase();
+    
+    let citas = getCitas();
+    
+    if (status !== 'all') {
+      citas = citas.filter(c => c.estado === status);
+    }
+    
+    if (date) {
+      citas = citas.filter(c => c.fecha === date);
+    }
+    
+    if (search) {
+      citas = citas.filter(c => {
+        const paciente = getPacienteById(c.pacienteId);
+        const servicio = getServicioById(c.servicioId);
+        return (paciente?.nombre.toLowerCase() || '').includes(search) || 
+               (servicio?.nombre.toLowerCase() || '').includes(search) ||
+               c.motivo.toLowerCase().includes(search);
+      });
+    }
+    
+    renderCitas(citas);
+  }
+});
+</script>

@@ -1,0 +1,195 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Galería de Evidencias</h1>
+      <p>Administra las evidencias médicas de tus pacientes</p>
+    </div>
+    
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="paciente-filter">Paciente:</label>
+        <select id="paciente-filter" class="form-select">
+          <option value="all">Todos los pacientes</option>
+          <option value="usr_pat_001">María González</option>
+          <option value="usr_pat_002">Pedro Martínez</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="tipo-filter">Tipo:</label>
+        <select id="tipo-filter" class="form-select">
+          <option value="all">Todos</option>
+          <option value="herida">Heridas</option>
+          <option value="radiografia">Radiografías</option>
+          <option value="documento">Documentos</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="fecha-filter">Fecha:</label>
+        <input type="date" id="fecha-filter" class="form-select">
+      </div>
+    </div>
+    
+    <div class="file-upload" id="evidencia-upload">
+      <div class="file-upload-icon">📁</div>
+      <p>Arrastra y suelta archivos aquí o haz clic para seleccionar</p>
+      <p class="file-upload-note">Solo imágenes (JPG, PNG, GIF) - Máximo 5MB</p>
+      <input type="file" id="evidencia-file" accept="image/*" multiple>
+    </div>
+    
+    <div class="file-preview" id="evidencia-preview"></div>
+    
+    <div class="evidencias-container">
+      <h3>Evidencias Médicas</h3>
+      <div class="evidencias-grid">
+        <!-- Las evidencias se cargarán dinámicamente con JavaScript -->
+        <div class="evidencia-card">
+          <div class="evidencia-image">
+            <img src="assets/images/evidencia1.jpg" alt="Herida" style="width:100%; height:200px; object-fit:cover; border-radius: var(--radius-lg);">
+          </div>
+          <div class="evidencia-details">
+            <h4>Herida</h4>
+            <p>Control post-operatorio de herida</p>
+            <small>15/05/2023</small>
+            <div class="evidencia-actions">
+              <button class="btn btn-icon">🔍</button>
+              <button class="btn btn-icon">🗑️</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="evidencia-card">
+          <div class="evidencia-image">
+            <img src="assets/images/evidencia2.jpg" alt="Radiografía" style="width:100%; height:200px; object-fit:cover; border-radius: var(--radius-lg);">
+          </div>
+          <div class="evidencia-details">
+            <h4>Radiografía</h4>
+            <p>Fractura en brazo izquierdo</p>
+            <small>10/05/2023</small>
+            <div class="evidencia-actions">
+              <button class="btn btn-icon">🔍</button>
+              <button class="btn btn-icon">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderEvidencias();
+  
+  // Configurar filtros
+  document.getElementById('paciente-filter').addEventListener('change', filterEvidencias);
+  document.getElementById('tipo-filter').addEventListener('change', filterEvidencias);
+  document.getElementById('fecha-filter').addEventListener('change', filterEvidencias);
+  
+  // Configurar carga de archivos
+  initImageUploader();
+  
+  function filterEvidencias() {
+    const paciente = document.getElementById('paciente-filter').value;
+    const tipo = document.getElementById('tipo-filter').value;
+    const fecha = document.getElementById('fecha-filter').value;
+    
+    let evidencias = getEvidencias();
+    
+    if (paciente !== 'all') {
+      evidencias = evidencias.filter(e => e.pacienteId === paciente);
+    }
+    
+    if (tipo !== 'all') {
+      evidencias = evidencias.filter(e => e.tipo === tipo);
+    }
+    
+    if (fecha) {
+      evidencias = evidencias.filter(e => e.fechaCaptura === fecha);
+    }
+    
+    renderEvidenciasGrid(evidencias);
+  }
+  
+  function renderEvidencias() {
+    renderEvidenciasGrid(getEvidencias());
+  }
+  
+  function renderEvidenciasGrid(evidencias) {
+    const container = document.querySelector('.evidencias-grid');
+    if (!container) return;
+    
+    if (evidencias.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📸</div>
+          <h3 class="empty-state-title">No hay evidencias médicas</h3>
+          <p class="empty-state-description">No se han subido evidencias médicas aún.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = '';
+    evidencias.forEach(evidencia => {
+      const paciente = getPacienteById(evidencia.pacienteId);
+      html += `
+        <div class="evidencia-card">
+          <div class="evidencia-image">
+            <img src="assets/images/placeholder.jpg" alt="${evidencia.tipo}" style="width:100%; height:200px; object-fit:cover; border-radius: var(--radius-lg);">
+          </div>
+          <div class="evidencia-details">
+            <h4>${evidencia.tipo}</h4>
+            <p>${evidencia.descripcion}</p>
+            <small>${new Date(evidencia.fechaCaptura).toLocaleDateString('es-VE')}</small>
+            <div class="evidencia-actions">
+              <button class="btn btn-icon view-evidencia" data-id="${evidencia.id}">🔍</button>
+              <button class="btn btn-icon delete-evidencia" data-id="${evidencia.id}">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+    
+    // Configurar eventos
+    document.querySelectorAll('.view-evidencia').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const evidenciaId = e.target.closest('button').dataset.id;
+        viewEvidencia(evidenciaId);
+      });
+    });
+    
+    document.querySelectorAll('.delete-evidencia').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const evidenciaId = e.target.closest('button').dataset.id;
+        deleteEvidencia(evidenciaId);
+      });
+    });
+  }
+  
+  function viewEvidencia(evidenciaId) {
+    const evidencia = getEvidenciaById(evidenciaId);
+    if (!evidencia) return;
+    
+    // En una implementación real, se mostraría una vista detallada
+    showToast(`Visualizando evidencia: ${evidencia.tipo}`, 'info');
+  }
+  
+  function deleteEvidencia(evidenciaId) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta evidencia?')) {
+      try {
+        // Lógica para eliminar evidencia
+        deleteEvidenciaById(evidenciaId);
+        showToast('Evidencia eliminada correctamente', 'success');
+        renderEvidencias();
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+  }
+});
+</script>

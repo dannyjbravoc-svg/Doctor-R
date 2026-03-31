@@ -1,0 +1,113 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Monedero Médico</h1>
+      <p>Configura y gestiona el sistema monetario dual</p>
+    </div>
+    
+    <div class="monedero-container">
+      <div class="monedero-header">
+        <h2>Configuración de Tasa de Cambio</h2>
+        <p>Actualiza la tasa de conversión entre USD y Bs</p>
+      </div>
+      
+      <div class="monedero-current">
+        <h3>Tasa Actual</h3>
+        <div class="tasa-value">1 USD = Bs ${getTasaCambio().toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+        <p class="tasa-date">Última actualización: ${new Date().toLocaleDateString('es-VE')}</p>
+      </div>
+      
+      <div class="monedero-form">
+        <div class="form-group">
+          <label for="tasa-cambio">Nueva Tasa USD → Bs</label>
+          <input type="number" id="tasa-cambio" step="0.01" min="0.01" value="${getTasaCambio()}" required>
+          <div class="error-message" id="tasa-error"></div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" id="update-tasa">Actualizar Tasa</button>
+      </div>
+      
+      <div class="monedero-historial">
+        <h3>Historial de Tasas</h3>
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tasa (Bs/USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${renderHistorialTasas()}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderMonedero();
+  
+  document.getElementById('update-tasa').addEventListener('click', updateTasa);
+  
+  function updateTasa() {
+    const tasaInput = document.getElementById('tasa-cambio');
+    const errorElement = document.getElementById('tasa-error');
+    
+    const nuevaTasa = parseFloat(tasaInput.value);
+    if (isNaN(nuevaTasa) || nuevaTasa <= 0) {
+      errorElement.textContent = 'La tasa debe ser un número positivo';
+      errorElement.classList.add('active');
+      return;
+    }
+    
+    errorElement.classList.remove('active');
+    
+    try {
+      setTasaCambio(nuevaTasa);
+      showToast('Tasa de cambio actualizada correctamente', 'success');
+      renderMonedero();
+    } catch (error) {
+      errorElement.textContent = error.message;
+      errorElement.classList.add('active');
+    }
+  }
+  
+  function renderMonedero() {
+    const tasa = getTasaCambio();
+    const fecha = new Date();
+    
+    document.querySelector('.tasa-value').textContent = `1 USD = Bs ${tasa.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.querySelector('.tasa-date').textContent = `Última actualización: ${fecha.toLocaleDateString('es-VE')}`;
+    
+    document.getElementById('tasa-cambio').value = tasa;
+    
+    const historialContainer = document.querySelector('.history-table tbody');
+    historialContainer.innerHTML = renderHistorialTasas();
+  }
+  
+  function renderHistorialTasas() {
+    const config = JSON.parse(localStorage.getItem('medivzla_config') || '{}');
+    const historial = config.historialTasas || [];
+    
+    if (historial.length === 0) {
+      return `
+        <tr>
+          <td colspan="2" style="text-align: center; padding: var(--space-4);">No hay historial de tasas</td>
+        </tr>
+      `;
+    }
+    
+    return historial.slice(-5).reverse().map(entry => {
+      const date = new Date(entry.fecha);
+      return `
+        <tr>
+          <td>${date.toLocaleDateString('es-VE')} ${date.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' })}</td>
+          <td>${entry.tasa.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+});
+</script>

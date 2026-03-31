@@ -1,0 +1,241 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/paciente/portal" data-link class="back-button">← Regresar</a>
+      <h1>Mis Pagos</h1>
+      <p>Administra y realiza pagos por tus servicios médicos</p>
+    </div>
+    
+    <div class="section">
+      <h2>Pagos Pendientes</h2>
+      <p>A continuación, se muestran las citas que requieren pago:</p>
+      
+      <div class="payments-list">
+        <!-- Los pagos pendientes se cargarán dinámicamente con JavaScript -->
+        <div class="payment-item">
+          <div class="payment-info">
+            <h3>Consulta General</h3>
+            <p>Fecha: 15/05/2023</p>
+            <p class="payment-amount">$25.00 USD / Bs 912.50</p>
+          </div>
+          <div class="payment-actions">
+            <button class="btn btn-primary" data-id="cta_001">Realizar Pago</button>
+          </div>
+        </div>
+        
+        <div class="payment-item">
+          <div class="payment-info">
+            <h3>Control de Diabetes</h3>
+            <p>Fecha: 20/05/2023</p>
+            <p class="payment-amount">$30.00 USD / Bs 1,095.00</p>
+          </div>
+          <div class="payment-actions">
+            <button class="btn btn-primary" data-id="cta_002">Realizar Pago</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section" style="margin-top: var(--space-6);">
+      <h2>Historial de Pagos</h2>
+      
+      <div class="payments-history">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Servicio</th>
+              <th>Monto</th>
+              <th>Método</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>15/05/2023</td>
+              <td>Consulta General</td>
+              <td>$25.00 USD / Bs 912.50</td>
+              <td>Zelle</td>
+              <td><span class="payment-status payment-status-verificado">Verificado</span></td>
+              <td>
+                <button class="btn btn-icon">👁️</button>
+              </td>
+            </tr>
+            <tr>
+              <td>10/05/2023</td>
+              <td>Colocación de Yeso</td>
+              <td>$40.00 USD / Bs 1,460.00</td>
+              <td>Pago Móvil</td>
+              <td><span class="payment-status payment-status-verificado">Verificado</span></td>
+              <td>
+                <button class="btn btn-icon">👁️</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderPagosPendientes();
+  renderHistorialPagos();
+  
+  // Configurar pagos pendientes
+  document.querySelectorAll('.payment-item .btn-primary').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const citaId = e.target.dataset.id;
+      openPaymentModal(citaId);
+    });
+  });
+});
+
+function openPaymentModal(citaId) {
+  // En una implementación real, se abriría un modal
+  showToast('Abriendo modal de pago...', 'info');
+  
+  // Simular proceso de pago
+  setTimeout(() => {
+    const pago = {
+      id: `pay_${Date.now()}`,
+      citaId,
+      montoUSD: 25.00,
+      montoBS: 912.50,
+      metodoPago: 'zelle',
+      referencia: `ZELLE-${Math.floor(Math.random() * 100000)}`,
+      fechaPago: new Date().toISOString().split('T')[0],
+      estado: 'pendiente',
+      creadoEn: new Date().toISOString()
+    };
+    
+    // En una implementación real, se guardaría el pago
+    showToast('Pago registrado exitosamente', 'success');
+    renderPagosPendientes();
+    renderHistorialPagos();
+  }, 1000);
+}
+
+function renderPagosPendientes() {
+  const container = document.querySelector('.payments-list');
+  if (!container) return;
+  
+  // En una implementación real, se obtendrían los pagos pendientes
+  const pagosPendientes = [
+    { id: 'cta_001', servicio: 'Consulta General', fecha: '15/05/2023', montoUSD: 25.00 },
+    { id: 'cta_002', servicio: 'Control de Diabetes', fecha: '20/05/2023', montoUSD: 30.00 }
+  ];
+  
+  if (pagosPendientes.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">💰</div>
+        <h3 class="empty-state-title">No hay pagos pendientes</h3>
+        <p class="empty-state-description">Todas tus citas están pagadas o no requieren pago.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '';
+  pagosPendientes.forEach(pago => {
+    html += `
+      <div class="payment-item">
+        <div class="payment-info">
+          <h3>${pago.servicio}</h3>
+          <p>Fecha: ${pago.fecha}</p>
+          <p class="payment-amount">$${pago.montoUSD.toFixed(2)} USD / Bs ${convertirUSDaBS(pago.montoUSD).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        </div>
+        <div class="payment-actions">
+          <button class="btn btn-primary" data-id="${pago.id}">Realizar Pago</button>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+  
+  // Configurar eventos
+  document.querySelectorAll('.payment-item .btn-primary').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const citaId = e.target.dataset.id;
+      openPaymentModal(citaId);
+    });
+  });
+}
+
+function renderHistorialPagos() {
+  const container = document.querySelector('.payments-history');
+  if (!container) return;
+  
+  // En una implementación real, se obtendría el historial de pagos
+  const historialPagos = [
+    {
+      id: 'pay_001',
+      fecha: '15/05/2023',
+      servicio: 'Consulta General',
+      montoUSD: 25.00,
+      metodo: 'Zelle',
+      estado: 'verificado'
+    },
+    {
+      id: 'pay_002',
+      fecha: '10/05/2023',
+      servicio: 'Colocación de Yeso',
+      montoUSD: 40.00,
+      metodo: 'Pago Móvil',
+      estado: 'verificado'
+    }
+  ];
+  
+  if (historialPagos.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">💰</div>
+        <h3 class="empty-state-title">No hay pagos registrados</h3>
+        <p class="empty-state-description">Aún no has realizado ningún pago.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = `
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Servicio</th>
+          <th>Monto</th>
+          <th>Método</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  historialPagos.forEach(pago => {
+    html += `
+      <tr>
+        <td>${pago.fecha}</td>
+        <td>${pago.servicio}</td>
+        <td>$${pago.montoUSD.toFixed(2)} USD / Bs ${convertirUSDaBS(pago.montoUSD).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td>${pago.metodo}</td>
+        <td><span class="payment-status payment-status-${pago.estado}">${pago.estado === 'verificado' ? 'Verificado' : pago.estado}</span></td>
+        <td>
+          <button class="btn btn-icon">👁️</button>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += `
+      </tbody>
+    </table>
+  `;
+  
+  container.innerHTML = html;
+}
+</script>

@@ -1,0 +1,18 @@
+# Archivos temporales
+.DS_Store
+Thumbs.db
+
+# Dependencias (aunque sea estático)
+node_modules/
+
+# Archivos personales
+.env
+secrets.json
+
+# Archivos de desarrollo
+*.log
+debug.log
+
+# Editor specific
+.idea/
+.vscode/

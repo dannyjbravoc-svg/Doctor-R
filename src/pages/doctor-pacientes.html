@@ -1,0 +1,125 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Gestión de Pacientes</h1>
+      <p>Administra tu base de datos de pacientes</p>
+    </div>
+    
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="search-pacientes">Buscar:</label>
+        <input type="text" id="search-pacientes" placeholder="Nombre, cédula..." class="form-select">
+      </div>
+      
+      <div class="filter-group">
+        <label for="edad-filter">Edad:</label>
+        <select id="edad-filter" class="form-select">
+          <option value="all">Todas</option>
+          <option value="0-18">0-18 años</option>
+          <option value="19-35">19-35 años</option>
+          <option value="36-50">36-50 años</option>
+          <option value="51-65">51-65 años</option>
+          <option value="66+">66+ años</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="condicion-filter">Condición:</label>
+        <select id="condicion-filter" class="form-select">
+          <option value="all">Todas</option>
+          <option value="hipertension">Hipertensión</option>
+          <option value="diabetes">Diabetes</option>
+          <option value="otros">Otras</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="pacientes-list">
+      <!-- Los pacientes se cargarán dinámicamente con JavaScript -->
+      <div class="patient-card" data-id="usr_pat_001">
+        <div class="patient-avatar">MG</div>
+        <div class="patient-info">
+          <h3>María González</h3>
+          <p>V23456789</p>
+        </div>
+        <div class="patient-actions">
+          <button class="btn btn-icon view-paciente">👁️</button>
+        </div>
+      </div>
+      
+      <div class="patient-card" data-id="usr_pat_002">
+        <div class="patient-avatar">PM</div>
+        <div class="patient-info">
+          <h3>Pedro Martínez</h3>
+          <p>V34567890</p>
+        </div>
+        <div class="patient-actions">
+          <button class="btn btn-icon view-paciente">👁️</button>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: var(--space-4);">
+      <a href="/doctor/pacientes/nuevo" data-link class="btn btn-primary">Agregar Nuevo Paciente</a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Inicializar pacientes
+  renderPacientes(getPacientes());
+  
+  // Configurar búsqueda
+  document.getElementById('search-pacientes').addEventListener('input', debounce(filterPacientes, 300));
+  document.getElementById('edad-filter').addEventListener('change', filterPacientes);
+  document.getElementById('condicion-filter').addEventListener('change', filterPacientes);
+  
+  function filterPacientes() {
+    const search = document.getElementById('search-pacientes').value.toLowerCase();
+    const edad = document.getElementById('edad-filter').value;
+    const condicion = document.getElementById('condicion-filter').value;
+    
+    let pacientes = getPacientes();
+    
+    if (search) {
+      pacientes = pacientes.filter(p => 
+        p.nombre.toLowerCase().includes(search) || 
+        p.cedula.toLowerCase().includes(search)
+      );
+    }
+    
+    if (edad !== 'all') {
+      pacientes = pacientes.filter(p => {
+        const age = calculateAge(p.fechaNacimiento);
+        switch(edad) {
+          case '0-18': return age <= 18;
+          case '19-35': return age >= 19 && age <= 35;
+          case '36-50': return age >= 36 && age <= 50;
+          case '51-65': return age >= 51 && age <= 65;
+          case '66+': return age >= 66;
+          default: return true;
+        }
+      });
+    }
+    
+    if (condicion !== 'all') {
+      pacientes = pacientes.filter(p => {
+        if (!p.historialMedico?.condicionesCronicas) return false;
+        switch(condicion) {
+          case 'hipertension': return p.historialMedico.condicionesCronicas.includes('Hipertensión arterial');
+          case 'diabetes': return p.historialMedico.condicionesCronicas.some(c => 
+            c.includes('Diabetes')
+          );
+          case 'otros': return p.historialMedico.condicionesCronicas.length > 0 && 
+                        !p.historialMedico.condicionesCronicas.includes('Hipertensión arterial') && 
+                        !p.historialMedico.condicionesCronicas.some(c => c.includes('Diabetes'));
+          default: return true;
+        }
+      });
+    }
+    
+    renderPacientes(pacientes);
+  }
+});
+</script>

@@ -1,0 +1,166 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/paciente/portal" data-link class="back-button">← Regresar</a>
+      <h1>Mi Historial Médico</h1>
+      <p>Revisa tu historial médico completo</p>
+    </div>
+    
+    <div class="grid grid-2">
+      <div>
+        <div class="card">
+          <h3>Información Personal</h3>
+          
+          <div class="info-list">
+            <div>
+              <strong>Nombre:</strong> María González
+            </div>
+            <div>
+              <strong>Cédula:</strong> V23456789
+            </div>
+            <div>
+              <strong>Fecha de Nacimiento:</strong> 12/05/1988
+            </div>
+            <div>
+              <strong>Edad:</strong> 35 años
+            </div>
+            <div>
+              <strong>Teléfono:</strong> +58 414-5556677
+            </div>
+            <div>
+              <strong>Email:</strong> maria@example.com
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: var(--space-4);">
+          <h3>Antecedentes Médicos</h3>
+          
+          <div class="info-list">
+            <div>
+              <strong>Condiciones Crónicas:</strong> 
+              <span class="condition-tag">Hipertensión arterial</span>
+            </div>
+            <div>
+              <strong>Alergias:</strong> Ninguna conocida
+            </div>
+            <div>
+              <strong>Medicamentos Actuales:</strong> Enalapril 10mg diario
+            </div>
+            <div>
+              <strong>Cirugías Previas:</strong> Apendicectomía en 2010
+            </div>
+            <div>
+              <strong>Antecedentes Familiares:</strong> Padre con infarto cardíaco a los 55 años
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card">
+          <h3>Historial de Citas</h3>
+          
+          <div class="history-timeline">
+            <div class="timeline-event">
+              <div class="timeline-date">15/05/2023</div>
+              <div class="timeline-content">
+                <h4>Consulta General</h4>
+                <p>Control de presión arterial</p>
+                <span class="appointment-status status-confirmada">Confirmada</span>
+              </div>
+            </div>
+            
+            <div class="timeline-event">
+              <div class="timeline-date">20/05/2023</div>
+              <div class="timeline-content">
+                <h4>Control de Diabetes</h4>
+                <p>Revisión de niveles de glucosa</p>
+                <span class="appointment-status status-pendiente">Pendiente</span>
+              </div>
+            </div>
+            
+            <div class="timeline-event">
+              <div class="timeline-date">10/05/2023</div>
+              <div class="timeline-content">
+                <h4>Colocación de Yeso</h4>
+                <p>Fractura en brazo izquierdo</p>
+                <span class="appointment-status status-completada">Completada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: var(--space-4);">
+          <h3>Evidencias Médicas</h3>
+          
+          <div class="evidencias-grid">
+            <div class="evidencia-card">
+              <div class="evidencia-image">
+                <img src="assets/images/evidencia1.jpg" alt="Herida" style="width:100%; height:150px; object-fit:cover; border-radius: var(--radius-lg);">
+              </div>
+              <div class="evidencia-details">
+                <h4>Herida</h4>
+                <p>Control post-operatorio de herida</p>
+                <small>15/05/2023</small>
+              </div>
+            </div>
+            
+            <div class="evidencia-card">
+              <div class="evidencia-image">
+                <img src="assets/images/evidencia2.jpg" alt="Radiografía" style="width:100%; height:150px; object-fit:cover; border-radius: var(--radius-lg);">
+              </div>
+              <div class="evidencia-details">
+                <h4>Radiografía</h4>
+                <p>Fractura en brazo izquierdo</p>
+                <small>10/05/2023</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section" style="margin-top: var(--space-6);">
+      <h2>Descargas</h2>
+      <div class="card">
+        <div class="info-list">
+          <div>
+            <strong>Resumen Médico Actual:</strong> 
+            <button class="btn btn-sm" id="download-resumen">Descargar PDF</button>
+          </div>
+          <div>
+            <strong>Historial Completo:</strong> 
+            <button class="btn btn-sm" id="download-historial">Descargar PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar descargas
+  document.getElementById('download-resumen').addEventListener('click', downloadResumen);
+  document.getElementById('download-historial').addEventListener('click', downloadHistorial);
+  
+  function downloadResumen() {
+    showToast('Descargando resumen médico...', 'info');
+    
+    // En una implementación real, se generaría el PDF
+    setTimeout(() => {
+      showToast('Resumen médico descargado exitosamente', 'success');
+    }, 1000);
+  }
+  
+  function downloadHistorial() {
+    showToast('Descargando historial médico completo...', 'info');
+    
+    // En una implementación real, se generaría el PDF
+    setTimeout(() => {
+      showToast('Historial médico descargado exitosamente', 'success');
+    }, 1000);
+  }
+});
+</script>

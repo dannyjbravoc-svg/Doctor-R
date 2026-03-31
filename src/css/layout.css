@@ -1,0 +1,257 @@
+/* Sistema de grillas y estructura de página */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.grid-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* Breakpoints para grillas */
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-5,
+  .grid-6 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-4,
+  .grid-5,
+  .grid-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Contenedores flex */
+.flex {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-end {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Contenedores de sección */
+.section {
+  padding: var(--space-8) 0;
+}
+
+.section-title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-6);
+  text-align: center;
+  color: var(--color-gray-800);
+}
+
+.section-description {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-8);
+  color: var(--color-gray-600);
+}
+
+/* Layout de dashboard */
+.dashboard-container {
+  padding: var(--space-4) 0;
+}
+
+.dashboard-header {
+  margin-bottom: var(--space-6);
+}
+
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.widget {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.widget-content {
+  padding: var(--space-6);
+}
+
+/* Acciones rápidas */
+.quick-actions {
+  margin-top: var(--space-8);
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-4);
+}
+
+.quick-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-primary-light);
+  text-align: center;
+  transition: all 200ms;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-4px);
+  background: var(--color-primary);
+  color: white;
+}
+
+.quick-action-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-2);
+}
+
+/* Layout de formulario de registro */
+.registration-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+.step-title {
+  font-size: var(--text-lg);
+}
+
+/* Layout de historial médico */
+.medical-history {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.history-section {
+  margin-bottom: var(--space-6);
+}
+
+.history-timeline {
+  position: relative;
+  padding-left: var(--space-6);
+}
+
+.history-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5px;
+  height: calc(100% - 10px);
+  width: 2px;
+  background: var(--color-primary);
+}
+
+.timeline-event {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: -25px;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--color-white);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.timeline-date {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}

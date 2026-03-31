@@ -1,0 +1,66 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Gestión de Servicios</h1>
+      <p>Administra los servicios médicos ofrecidos</p>
+    </div>
+    
+    <div class="services-grid">
+      <!-- Los servicios se cargarán dinámicamente con JavaScript -->
+      <div class="service-card" data-id="srv_001">
+        <div class="service-header">
+          <h3>Consulta General</h3>
+          <span class="service-price">$25.00 USD / Bs 912.50</span>
+        </div>
+        <p>Evaluación médica completa con diagnóstico y tratamiento inicial</p>
+        <div class="service-meta">
+          <span class="service-duration">30 min</span>
+        </div>
+        <div class="service-actions">
+          <button class="btn btn-outline edit-service" data-id="srv_001">Editar</button>
+          <button class="btn btn-danger toggle-service" data-id="srv_001">Desactivar</button>
+        </div>
+      </div>
+      
+      <div class="service-card" data-id="srv_002">
+        <div class="service-header">
+          <h3>Curas y Curaciones</h3>
+          <span class="service-price">$15.00 USD / Bs 547.50</span>
+        </div>
+        <p>Tratamiento de heridas y curaciones post-operatorias</p>
+        <div class="service-meta">
+          <span class="service-duration">20 min</span>
+        </div>
+        <div class="service-actions">
+          <button class="btn btn-outline edit-service" data-id="srv_002">Editar</button>
+          <button class="btn btn-danger toggle-service" data-id="srv_002">Desactivar</button>
+        </div>
+      </div>
+      
+      <div class="service-card" data-id="srv_003">
+        <div class="service-header">
+          <h3>Colocación de Yeso</h3>
+          <span class="service-price">$40.00 USD / Bs 1,460.00</span>
+        </div>
+        <p>Inmovilización de extremidades con yeso</p>
+        <div class="service-meta">
+          <span class="service-duration">40 min</span>
+        </div>
+        <div class="service-actions">
+          <button class="btn btn-outline edit-service" data-id="srv_003">Editar</button>
+          <button class="btn btn-danger toggle-service" data-id="srv_003">Desactivar</button>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: var(--space-4);">
+      <a href="/doctor/servicios/nuevo" data-link class="btn btn-primary">Agregar Nuevo Servicio</a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderServicios(getServicios());
+});
+</script>

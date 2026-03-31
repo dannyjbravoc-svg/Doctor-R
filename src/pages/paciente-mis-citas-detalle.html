@@ -1,0 +1,178 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/paciente/mis-citas" data-link class="back-button">← Regresar</a>
+      <h1>Detalle de Cita</h1>
+      <p>Información detallada de tu cita médica</p>
+    </div>
+    
+    <div class="grid grid-2">
+      <div>
+        <div class="card">
+          <h3>Información de la Cita</h3>
+          
+          <div class="info-list">
+            <div>
+              <strong>Fecha:</strong> 15/05/2023
+            </div>
+            <div>
+              <strong>Hora:</strong> 09:00 AM
+            </div>
+            <div>
+              <strong>Duración:</strong> 30 minutos
+            </div>
+            <div>
+              <strong>Estado:</strong> <span class="appointment-status status-confirmada">Confirmada</span>
+            </div>
+            <div>
+              <strong>Médico:</strong> Dr. Carlos Rodríguez
+            </div>
+            <div>
+              <strong>Servicio:</strong> Consulta General
+            </div>
+          </div>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Motivo de la Consulta</h4>
+            <p>Control de presión arterial</p>
+          </div>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Síntomas</h4>
+            <div class="conditions-grid">
+              <span class="condition-tag">Dolor de cabeza</span>
+              <span class="condition-tag">Mareos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card">
+          <h3>Información del Médico</h3>
+          
+          <div class="info-list">
+            <div>
+              <strong>Nombre:</strong> Dr. Carlos Eduardo Rodríguez Pérez
+            </div>
+            <div>
+              <strong>Especialidad:</strong> Medicina General
+            </div>
+            <div>
+              <strong>Número de Colegiado:</strong> 12345
+            </div>
+            <div>
+              <strong>Dirección del Consultorio:</strong> Av. Principal, Edif. Médico, Piso 2, Consultorio 205, Caracas
+            </div>
+            <div>
+              <strong>Teléfono de Contacto:</strong> +58 412-1234567
+            </div>
+          </div>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Notas Médicas</h4>
+            <p>Paciente con presión arterial estable, continuar con medicación actual</p>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: var(--space-4);">
+          <h3>Acciones Disponibles</h3>
+          
+          <div class="actions-grid">
+            <button class="btn btn-outline" id="reagendar-cita">Reagendar Cita</button>
+            <button class="btn btn-outline" id="cancelar-cita">Cancelar Cita</button>
+            <button class="btn btn-primary" id="pagar-cita">Realizar Pago</button>
+          </div>
+          
+          <div style="margin-top: var(--space-4);">
+            <h4>Estado de Pago</h4>
+            <p class="payment-status payment-status-verificado">Pagado - Verificado</p>
+            <p>Fecha de pago: 15/05/2023</p>
+            <p>Método: Zelle</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section" style="margin-top: var(--space-4);">
+      <h2>Historial Médico Relacionado</h2>
+      
+      <div class="card">
+        <div class="info-list">
+          <div>
+            <strong>Condiciones Crónicas:</strong> 
+            <span class="condition-tag">Hipertensión arterial</span>
+          </div>
+          <div>
+            <strong>Medicamentos Actuales:</strong> Enalapril 10mg diario
+          </div>
+          <div>
+            <strong>Última Consulta:</strong> 10/05/2023 - Colocación de Yeso
+          </div>
+        </div>
+      </div>
+      
+      <div class="section" style="margin-top: var(--space-4);">
+        <h3>Evidencias Médicas</h3>
+        
+        <div class="evidencias-grid">
+          <div class="evidencia-card">
+            <div class="evidencia-image">
+              <img src="assets/images/evidencia1.jpg" alt="Herida" style="width:100%; height:200px; object-fit:cover; border-radius: var(--radius-lg);">
+            </div>
+            <div class="evidencia-details">
+              <h4>Herida</h4>
+              <p>Control post-operatorio de herida</p>
+              <small>15/05/2023</small>
+            </div>
+          </div>
+          
+          <div class="evidencia-card">
+            <div class="evidencia-image">
+              <img src="assets/images/evidencia2.jpg" alt="Radiografía" style="width:100%; height:200px; object-fit:cover; border-radius: var(--radius-lg);">
+            </div>
+            <div class="evidencia-details">
+              <h4>Radiografía</h4>
+              <p>Fractura en brazo izquierdo</p>
+              <small>10/05/2023</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Configurar acciones
+  document.getElementById('reagendar-cita').addEventListener('click', reagendarCita);
+  document.getElementById('cancelar-cita').addEventListener('click', cancelarCita);
+  document.getElementById('pagar-cita').addEventListener('click', pagarCita);
+  
+  function reagendarCita() {
+    navigate('/paciente/agendar');
+  }
+  
+  function cancelarCita() {
+    if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+      showToast('Cita cancelada exitosamente', 'success');
+      setTimeout(() => {
+        navigate('/paciente/mis-citas');
+      }, 1000);
+    }
+  }
+  
+  function pagarCita() {
+    // En una implementación real, se abriría el modal de pago
+    showToast('Abriendo formulario de pago...', 'info');
+    
+    // Simular proceso de pago
+    setTimeout(() => {
+      showToast('Pago registrado exitosamente', 'success');
+      document.querySelector('.payment-status').textContent = 'Pagado - Verificado';
+      document.querySelector('.payment-status').className = 'payment-status payment-status-verificado';
+    }, 1000);
+  }
+});
+</script>

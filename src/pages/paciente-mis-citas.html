@@ -1,0 +1,143 @@
+<div class="dashboard-container">
+  <div class="container">
+    <div class="dashboard-header">
+      <a href="/paciente/portal" data-link class="back-button">← Regresar</a>
+      <h1>Mis Citas</h1>
+      <p>Administra y revisa tus citas médicas</p>
+    </div>
+    
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="status-filter">Estado:</label>
+        <select id="status-filter" class="form-select">
+          <option value="all">Todas</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="confirmada">Confirmada</option>
+          <option value="completada">Completada</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="date-filter">Fecha:</label>
+        <input type="date" id="date-filter" class="form-select">
+      </div>
+      
+      <div class="filter-group">
+        <label for="search-filter">Buscar:</label>
+        <input type="text" id="search-filter" placeholder="Servicio o doctor..." class="form-select">
+      </div>
+    </div>
+    
+    <div class="citas-list">
+      <!-- Las citas se cargarán dinámicamente con JavaScript -->
+      <div class="appointment-item">
+        <div class="appointment-time">09:00 AM</div>
+        <div class="appointment-details">
+          <h3>Dr. Carlos Rodríguez</h3>
+          <p>Consulta General</p>
+          <span class="appointment-status status-confirmada">Confirmada</span>
+        </div>
+        <div class="appointment-actions">
+          <button class="btn btn-icon view-cita">👁️</button>
+          <button class="btn btn-icon reagendar-cita">🔄</button>
+          <button class="btn btn-icon cancelar-cita">🗑️</button>
+        </div>
+      </div>
+      
+      <div class="appointment-item">
+        <div class="appointment-time">10:00 AM</div>
+        <div class="appointment-details">
+          <h3>Dr. Carlos Rodríguez</h3>
+          <p>Control de Diabetes</p>
+          <span class="appointment-status status-pendiente">Pendiente</span>
+        </div>
+        <div class="appointment-actions">
+          <button class="btn btn-icon view-cita">👁️</button>
+          <button class="btn btn-icon reagendar-cita">🔄</button>
+          <button class="btn btn-icon cancelar-cita">🗑️</button>
+        </div>
+      </div>
+      
+      <div class="appointment-item">
+        <div class="appointment-time">14:00 PM</div>
+        <div class="appointment-details">
+          <h3>Dr. Carlos Rodríguez</h3>
+          <p>Control rutinario</p>
+          <span class="appointment-status status-pendiente">Pendiente</span>
+        </div>
+        <div class="appointment-actions">
+          <button class="btn btn-icon view-cita">👁️</button>
+          <button class="btn btn-icon reagendar-cita">🔄</button>
+          <button class="btn btn-icon cancelar-cita">🗑️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderCitas(getPacienteCitas());
+  
+  // Configurar filtros
+  document.getElementById('status-filter').addEventListener('change', filterCitas);
+  document.getElementById('date-filter').addEventListener('change', filterCitas);
+  document.getElementById('search-filter').addEventListener('input', debounce(filterCitas, 300));
+  
+  // Configurar acciones
+  document.querySelectorAll('.reagendar-cita').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const citaId = e.target.closest('.appointment-item').dataset.id;
+      navigate('/paciente/agendar');
+    });
+  });
+  
+  document.querySelectorAll('.cancelar-cita').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const citaId = e.target.closest('.appointment-item').dataset.id;
+      cancelarCita(citaId);
+    });
+  });
+  
+  function filterCitas() {
+    const status = document.getElementById('status-filter').value;
+    const date = document.getElementById('date-filter').value;
+    const search = document.getElementById('search-filter').value.toLowerCase();
+    
+    let citas = getPacienteCitas();
+    
+    if (status !== 'all') {
+      citas = citas.filter(c => c.estado === status);
+    }
+    
+    if (date) {
+      citas = citas.filter(c => c.fecha === date);
+    }
+    
+    if (search) {
+      citas = citas.filter(c => {
+        const doctor = getDoctorById(c.doctorId);
+        const servicio = getServicioById(c.servicioId);
+        return (doctor?.nombre.toLowerCase() || '').includes(search) || 
+               (servicio?.nombre.toLowerCase() || '').includes(search);
+      });
+    }
+    
+    renderCitas(citas);
+  }
+  
+  function cancelarCita(citaId) {
+    if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+      try {
+        // Lógica para cancelar cita
+        cancelarCitaById(citaId);
+        showToast('Cita cancelada exitosamente', 'success');
+        renderCitas(getPacienteCitas());
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+  }
+});
+</script>

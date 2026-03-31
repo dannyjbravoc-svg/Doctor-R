@@ -1,0 +1,113 @@
+/* Modo oscuro (opcional) */
+:root[data-theme="dark"] {
+  --color-gray-50: #1f2937;
+  --color-gray-100: #111827;
+  --color-gray-200: #0f172a;
+  --color-gray-300: #0c111d;
+  --color-gray-400: #0a0e17;
+  --color-gray-500: #080b12;
+  --color-gray-600: #06080d;
+  --color-gray-700: #05060a;
+  --color-gray-800: #030407;
+  --color-gray-900: #020305;
+  --color-white: #010203;
+  --color-black: #f9fafb;
+  
+  --color-primary-light: #1e40af;
+  --color-primary: #1d4ed8;
+  --color-primary-dark: #1e3a8a;
+  
+  --color-secondary-light: #059669;
+  --color-secondary: #047857;
+  --color-secondary-dark: #065f46;
+  
+  --color-warning-light: #f59e0b;
+  --color-warning: #f59e0b;
+  
+  --color-danger-light: #f43f5e;
+  --color-danger: #f43f5e;
+  
+  --color-info: #3b82f6;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+}
+
+[data-theme="dark"] .header {
+  background: var(--color-gray-800);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .logo {
+  color: var(--color-white);
+}
+
+[data-theme="dark"] .nav-list li a {
+  color: var(--color-gray-200);
+}
+
+[data-theme="dark"] .nav-list li a:hover,
+[data-theme="dark"] .nav-list li a.active {
+  color: var(--color-warning);
+}
+
+[data-theme="dark"] .card {
+  background: var(--color-gray-800);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .card-title {
+  color: var(--color-gray-50);
+}
+
+[data-theme="dark"] .card-description {
+  color: var(--color-gray-300);
+}
+
+[data-theme="dark"] .input {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+[data-theme="dark"] .input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+[data-theme="dark"] .btn-outline {
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-300);
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  background: var(--color-gray-700);
+  color: var(--color-white);
+}
+
+[data-theme="dark"] .table th {
+  background: var(--color-gray-700);
+  color: var(--color-gray-200);
+}
+
+[data-theme="dark"] .table td {
+  border-color: var(--color-gray-700);
+  color: var(--color-gray-200);
+}
+
+[data-theme="dark"] .table tr:hover {
+  background: var(--color-gray-700);
+}
+
+[data-theme="dark"] .sidebar {
+  background: var(--color-gray-800);
+  border-right-color: var(--color-gray-700);
+}
+
+[data-theme="](streamdown:incomplete-link)

@@ -1,0 +1,103 @@
+<div class="section">
+  <div class="container">
+    <h2 class="section-title">Preguntas Frecuentes</h2>
+    <p class="section-description">Encuentra respuestas a las preguntas más comunes sobre MediVzla.</p>
+    
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿Cómo funciona el sistema monetario dual?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>MediVzla maneja un sistema monetario dual que permite trabajar con USD y Bs simultáneamente. El médico establece la tasa de cambio (1 USD = X Bs), y el sistema convierte automáticamente todos los precios. Los pagos se registran con la tasa aplicada en el momento del pago, permitiendo un seguimiento preciso de ingresos en ambas monedas.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿Puedo cambiar la tasa de cambio cuando sea necesario?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Sí, el médico puede actualizar la tasa de cambio en cualquier momento desde la sección "Monedero". Cada cambio se registra con fecha y hora, y se aplica a todas las transacciones futuras. Las transacciones pasadas conservan la tasa que estaba vigente en el momento del pago.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿Cómo gestiono los pagos en diferentes monedas?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Al registrar un pago, el sistema te permite seleccionar el método (Zelle, Pago Móvil, efectivo USD, etc.) y registra automáticamente la moneda utilizada. Los comprobantes muestran claramente la moneda y el monto en ambas referencias monetarias.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿El sistema es seguro para almacenar datos médicos?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Sí, MediVzla cumple con estándares de seguridad médicos. Los datos se almacenan localmente en tu dispositivo y no se envían a servidores externos. Implementamos cifrado básico para información sensible y seguimos las mejores prácticas de seguridad para aplicaciones médicas.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿Puedo usar MediVzla en mi teléfono móvil?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Sí, MediVzla es 100% responsivo y funciona perfectamente en dispositivos móviles. Puedes agregarlo a tu pantalla de inicio para acceder como una aplicación nativa. La experiencia móvil incluye todas las funciones principales del sistema.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿Cómo puedo generar reportes de ingresos?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Desde la sección "Reportes", puedes generar reportes detallados de ingresos por periodo. El sistema muestra ingresos separados por moneda, por servicio, y por paciente. Los reportes se pueden exportar en formato PDF para impresión o archivo.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿El sistema requiere conexión a internet?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>MediVzla es una aplicación web progresiva (PWA) que funciona sin conexión a internet después de la primera carga. Los datos se almacenan localmente en tu dispositivo, permitiéndote trabajar incluso sin conexión. Cuando recuperes la conexión, los datos se sincronizarán automáticamente.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>¿Cómo agrego nuevas enfermedades o síntomas?</h3>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>El sistema incluye una base de datos completa de enfermedades y síntomas según categorías médicas estándar. No es necesario agregar nuevos elementos, pero si tienes necesidades específicas, puedes contactarnos para considerarla en futuras actualizaciones del sistema.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const toggle = item.querySelector('.faq-toggle');
+    
+    toggle.addEventListener('click', () => {
+      item.classList.toggle('active');
+      toggle.textContent = item.classList.contains('active') ? '−' : '+';
+    });
+  });
+});
+</script>
