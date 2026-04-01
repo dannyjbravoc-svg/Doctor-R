@@ -8,6 +8,9 @@
     <meta name="author" content="MediVzla Team">
     <meta name="robots" content="index, follow">
     
+    <!-- Base href para resolver problemas de rutas -->
+    <base href="/">
+    
     <!-- Open Graph / Twitter Card -->
     <meta property="og:title" content="MediVzla - Sistema Médico Profesional">
     <meta property="og:description" content="Sistema médico moderno con manejo monetario dual para profesionales de la salud en Venezuela">
@@ -50,6 +53,9 @@
     
     <!-- Title -->
     <title>MediVzla - Sistema Médico Profesional</title>
+    
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'">
 </head>
 <body>
     <!-- Header -->
@@ -80,14 +86,35 @@
         <div class="container">
             <div id="app-content">
                 <!-- Contenido dinámico cargado por el router -->
-                <!-- El router inicializará el contenido correcto -->
-                <div class="hero-section" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
-                    <div class="container" style="text-align: center; max-width: 800px;">
-                        <h1 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Sistema Médico Profesional para Venezuela</h1>
-                        <p style="font-size: 1.25rem; margin-bottom: 2rem; color: var(--color-gray-600);">Gestiona tus consultas médicas, pacientes y pagos con un sistema moderno que soporta el manejo monetario dual (USD/Bs).</p>
-                        <div class="hero-buttons">
-                            <a href="/doctor/login" class="btn btn-primary" style="margin-right: 1rem;">Ingresar como Doctor</a>
-                            <a href="/paciente/registro" class="btn btn-outline">Registrarse como Paciente</a>
+                <div class="hero-section">
+                    <div class="container">
+                        <div class="hero-content">
+                            <h1>Sistema Médico Profesional para Venezuela</h1>
+                            <p class="hero-description">Gestiona tus consultas médicas, pacientes y pagos con un sistema moderno que soporta el manejo monetario dual (USD/Bs).</p>
+                            <div class="hero-buttons">
+                                <a href="/doctor/login" class="btn btn-primary">Ingresar como Doctor</a>
+                                <a href="/paciente/registro" class="btn btn-outline">Registrarse como Paciente</a>
+                            </div>
+                        </div>
+                        
+                        <div class="hero-features">
+                            <div class="feature-card">
+                                <div class="feature-icon">💰</div>
+                                <h3>Manejo Monetario Dual</h3>
+                                <p>Sistema inteligente que convierte entre USD y Bs con la tasa actualizada</p>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">🏥</div>
+                                <h3>Gestión Completa</h3>
+                                <p>Controla citas, pacientes, servicios y pagos en una sola plataforma</p>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">📱</div>
+                                <h3>100% Responsivo</h3>
+                                <p>Funciona perfectamente en cualquier dispositivo, desde móviles hasta escritorio</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,7 +152,6 @@
                         <li><a href="/doctor/dashboard" data-link>Dashboard</a></li>
                         <li><a href="/doctor/servicios" data-link>Servicios</a></li>
                         <li><a href="/doctor/monedero" data-link>Monedero</a></li>
-                        <li><a href="/doctor/pacientes" data-link>Pacientes</a></li>
                     </ul>
                 </div>
                 
@@ -136,7 +162,6 @@
                         <li><a href="/paciente/login" data-link>Iniciar Sesión</a></li>
                         <li><a href="/paciente/portal" data-link>Portal</a></li>
                         <li><a href="/paciente/agendar" data-link>Agendar Cita</a></li>
-                        <li><a href="/paciente/mis-citas" data-link>Mis Citas</a></li>
                     </ul>
                 </div>
             </div>
