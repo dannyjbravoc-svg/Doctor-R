@@ -179,20 +179,12 @@
     <!-- Scripts -->
     <script type="module">
         // Cargar los módulos en el orden correcto
-        import { initStorage } from './src/js/storage.js';
-        import { initCurrency } from './src/js/currency.js';
-        import { initAuth } from './src/js/auth.js';
-        import { initializeRouter } from './src/js/router.js';
-        import { initUI } from './src/js/ui.js';
-        
-        // Inicializar el sistema
-        document.addEventListener('DOMContentLoaded', () => {
-            initStorage();
-            initCurrency();
-            initAuth();
-            initUI();
-            initializeRouter();
-        });
+        import './src/js/storage.js';
+        import './src/js/currency.js';
+        import './src/js/auth.js';
+        import './src/js/router.js';
+        import './src/js/ui.js';
+        import './src/js/app.js';
     </script>
     
     <!-- Fallback para navegadores que no soportan módulos -->
