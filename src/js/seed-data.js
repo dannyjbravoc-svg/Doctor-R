@@ -265,4 +265,12 @@ export const seedData = () => {
         pacienteId: "usr_pat_001",
         citaId: "cta_001",
         tipo: "herida",
-        descripcion: "Control post-operatorio](streamdown:incomplete-link)
+        descripcion: "Control post-operatorio",
+        fechaCaptura: new Date().toISOString().split('T')[0],
+        imagenId: "img_001",
+        subidoEn: new Date().toISOString()
+      }
+    ];
+    localStorage.setItem('medivzla_evidencias_meta', JSON.stringify(evidenciasMetaDemo));
+  }
+};

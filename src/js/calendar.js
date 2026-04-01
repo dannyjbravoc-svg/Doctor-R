@@ -1,4 +1,6 @@
 // src/js/calendar.js
+import { formatDate } from './utils.js';
+
 export const initCalendar = () => {
   const calendarContainer = document.querySelector('.calendar-container');
   if (!calendarContainer) return;
@@ -162,5 +164,9 @@ const openEventForm = (date) => {
   eventForm.style.display = 'block';
 };
 
-const formatDate = (dateString) => {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day:*
+// Inicializar el calendario cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('.calendar-container')) {
+    initCalendar();
+  }
+});

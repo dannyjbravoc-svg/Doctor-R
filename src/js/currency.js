@@ -1,3 +1,6 @@
+// src/js/currency.js
+import { updateCurrencyDisplay } from './ui.js';
+
 const CURRENCY_KEY = 'medivzla_tasa_cambio';
 
 export const setTasaCambio = (nuevaTasa) => {

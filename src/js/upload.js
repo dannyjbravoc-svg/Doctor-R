@@ -1,4 +1,7 @@
 // src/js/upload.js
+import { saveImage } from './database.js';
+import { showToast } from './notifications.js';
+
 export const handleImageUpload = (fileInput, previewContainer) => {
   return new Promise((resolve, reject) => {
     if (!fileInput.files || fileInput.files.length === 0) {

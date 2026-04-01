@@ -1,4 +1,6 @@
 // src/js/auth.js
+import { navigate } from './router.js';
+
 export const login = (email, password, rememberMe) => {
   const users = JSON.parse(localStorage.getItem('medivzla_users') || '[]');
   const user = users.find(u => u.email === email && u.password === btoa(password));

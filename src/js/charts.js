@@ -7,10 +7,6 @@ export const createBarChart = (canvasId, labels, data, options = {}) => {
   const width = canvas.width;
   const height = canvas.height;
   
-  const padding = 40;
-  const chartWidth = width - padding * 2;
-  const chartHeight = height - padding * 2;
-  
   // Limpiar canvas
   ctx.clearRect(0, 0, width, height);
   
@@ -24,6 +20,10 @@ export const createBarChart = (canvasId, labels, data, options = {}) => {
     maxValue: options.maxValue || Math.max(...data) * 1.1,
     ...options
   };
+  
+  const padding = 40;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
   
   // Dibujar grid horizontal
   const steps = 5;

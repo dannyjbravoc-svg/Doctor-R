@@ -188,11 +188,11 @@ if (!Array.prototype.find) {
     if (typeof predicate !== 'function') {
       throw new TypeError('predicate must be a function');
     }
-    var list = Object(this);
-    var length = list.length >>> 0;
-    var thisArg = arguments[1];
-    for (var i = 0; i < length; i++) {
-      var value = list[i];
+    const list = Object(this);
+    const length = list.length >>> 0;
+    const thisArg = arguments[1];
+    for (let i = 0; i < length; i++) {
+      const value = list[i];
       if (predicate.call(thisArg, value, i, list)) {
         return value;
       }

@@ -1,4 +1,9 @@
 // src/js/router.js
+import { navigate } from './app.js';
+import { requireAuth, requireRole, checkAuth } from './auth.js';
+import { showToast } from './notifications.js';
+import { updateCurrencyDisplay } from './ui.js';
+
 const routes = {
   '/': 'landing',
   '/nosotros': 'nosotros',
@@ -28,15 +33,16 @@ const routes = {
 };
 
 let currentRoute = null;
+let currentRouteParams = {};
 
 // Función para navegar a una ruta
-function navigate(path) {
+export function navigate(path) {
   history.pushState({}, '', path);
   renderRoute(path);
 }
 
 // Inicializar el router
-function initializeRouter() {
+export function initializeRouter() {
   // Manejar la navegación del historial
   window.addEventListener('popstate', () => {
     renderRoute(window.location.pathname);
@@ -81,6 +87,15 @@ function renderRoute(path) {
       
       if (match) {
         routeName = routes[route];
+        
+        // Extraer parámetros
+        const paramNames = route.match(/:([^/]+)/g).map(param => param.slice(1));
+        currentRouteParams = {};
+        
+        for (let i = 1; i < match.length; i++) {
+          currentRouteParams[paramNames[i - 1]] = match[i];
+        }
+        
         break;
       }
     }
@@ -100,6 +115,9 @@ function renderRoute(path) {
       initPageComponents(routeName);
       updatePageTitle(routeName);
       updateNavigationState();
+      
+      // Establecer parámetros de ruta en el contexto
+      window.currentRouteParams = currentRouteParams;
     })
     .catch(error => {
       contentArea.innerHTML = `
@@ -139,6 +157,9 @@ function initPageComponents(routeName) {
       break;
     case 'doctor-login':
       initDoctorLogin();
+      break;
+    case 'doctor-paciente-detail':
+      initPacienteDetail();
       break;
   }
 }
@@ -192,9 +213,9 @@ function initDashboard() {
   console.log('Dashboard initialized');
   // Lógica específica para dashboard
   if (document.querySelector('.dashboard-container')) {
-    renderCitas();
-    renderPacientes();
-    renderServicios();
+    renderCitas(getCitas().slice(0, 3));
+    renderPacientes(getPacientes().slice(0, 5));
+    renderServicios(getServicios().slice(0, 4));
   }
 }
 
@@ -202,7 +223,7 @@ function initCitas() {
   console.log('Citas page initialized');
   // Lógica específica para citas
   if (document.querySelector('.citas-list')) {
-    renderCitas();
+    renderCitas(getCitas());
   }
 }
 
@@ -338,6 +359,22 @@ function initDoctorLogin() {
   }
 }
 
+function initPacienteDetail() {
+  const params = window.currentRouteParams || {};
+  if (!params.id) {
+    navigate('/doctor/pacientes');
+    return;
+  }
+  
+  const paciente = getPacienteById(params.id);
+  if (!paciente) {
+    navigate('/doctor/pacientes');
+    return;
+  }
+  
+  renderPacienteDetail(paciente);
+}
+
 // Inicializar el router cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
   // Inicializar el sistema de enrutamiento
@@ -368,7 +405,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
-
-// Exportar funciones para uso global
-window.navigate = navigate;
-window.initializeRouter = initializeRouter;

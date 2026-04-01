@@ -1,4 +1,8 @@
 // src/js/ui.js
+import { getTasaCambio, formatDual } from './currency.js';
+import { showToast } from './notifications.js';
+import { navigate } from './router.js';
+
 export const renderCitas = (citas) => {
   const citasContainer = document.querySelector('.citas-list');
   if (!citasContainer) return;
@@ -508,7 +512,6 @@ const renderEvidencias = (pacienteId) => {
     return `
       <div class="evidencia-card">
         <div class="evidencia-image">
-          <!-- En una implementación real, se mostraría la imagen -->
           <div style="height: 200px; background: var(--color-gray-100); display: flex; align-items: center; justify-content: center;">
             <span>Evidencia Médica</span>
           </div>
