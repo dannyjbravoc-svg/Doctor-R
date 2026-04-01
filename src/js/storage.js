@@ -1,6 +1,8 @@
 // src/js/storage.js
 export const initStorage = () => {
-  // Configuración inicial
+  console.log('Storage system initialized');
+  
+  // Inicializar el almacenamiento local
   if (!localStorage.getItem('medivzla_config')) {
     localStorage.setItem('medivzla_config', JSON.stringify({
       tasaCambio: 36.50,
@@ -14,7 +16,7 @@ export const initStorage = () => {
     }));
   }
   
-  // Usuarios demo
+  // Inicializar usuarios demo
   if (!localStorage.getItem('medivzla_users')) {
     const doctorDemo = {
       id: "usr_doc_001",
@@ -99,7 +101,7 @@ export const initStorage = () => {
     localStorage.setItem('medivzla_users', JSON.stringify([doctorDemo, ...pacientesDemo]));
   }
   
-  // Servicios demo
+  // Inicializar otros datos demo
   if (!localStorage.getItem('medivzla_servicios')) {
     const serviciosDemo = [
       { 
@@ -161,7 +163,7 @@ export const initStorage = () => {
     localStorage.setItem('medivzla_servicios', JSON.stringify(serviciosDemo));
   }
   
-  // Citas demo
+  // Inicializar citas demo
   if (!localStorage.getItem('medivzla_citas')) {
     const now = new Date();
     const citasDemo = [
@@ -235,7 +237,7 @@ export const initStorage = () => {
     localStorage.setItem('medivzla_citas', JSON.stringify(citasDemo));
   }
   
-  // Pagos demo
+  // Inicializar pagos demo
   if (!localStorage.getItem('medivzla_pagos')) {
     const pagosDemo = [
       {
@@ -257,7 +259,7 @@ export const initStorage = () => {
     localStorage.setItem('medivzla_pagos', JSON.stringify(pagosDemo));
   }
   
-  // Evidencias meta demo
+  // Inicializar evidencias meta demo
   if (!localStorage.getItem('medivzla_evidencias_meta')) {
     const evidenciasMetaDemo = [
       {
@@ -275,5 +277,7 @@ export const initStorage = () => {
   }
 };
 
-// Inicializar el almacenamiento al cargar la página
-document.addEventListener('DOMContentLoaded', initStorage);
+// Inicializar el almacenamiento al cargar
+document.addEventListener('DOMContentLoaded', () => {
+  initStorage();
+});
