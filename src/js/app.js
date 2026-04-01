@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGlobalComponents();
 });
 
-const initGlobalComponents = () => {
+function initGlobalComponents() {
   // Configurar notificaciones
   if (document.querySelector('.toast-container')) {
     initNotifications();
@@ -25,31 +25,26 @@ const initGlobalComponents = () => {
   if (darkModeToggle) {
     darkModeToggle.addEventListener('click', toggleDarkMode);
   }
-};
+}
 
-const toggleMenu = () => {
+function toggleMenu() {
   const nav = document.getElementById('mainNav');
   nav.classList.toggle('active');
-};
+}
 
-const toggleDarkMode = () => {
+function toggleDarkMode() {
   document.body.classList.toggle('dark-mode');
   const isDarkMode = document.body.classList.contains('dark-mode');
   localStorage.setItem('darkMode', isDarkMode);
-};
+}
 
-const initNotifications = () => {
+function initNotifications() {
   // Lógica para notificaciones
-};
+}
 
-const initDarkMode = () => {
+function initDarkMode() {
   const isDarkMode = localStorage.getItem('darkMode') === 'true';
   if (isDarkMode) {
     document.body.classList.add('dark-mode');
   }
-};
-
-// Inicializar el sistema
-document.addEventListener('DOMContentLoaded', () => {
-  initGlobalComponents();
-});
+}

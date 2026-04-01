@@ -30,18 +30,21 @@ const routes = {
 let currentRoute = null;
 
 // Función para navegar a una ruta
-const navigate = (path) => {
-  window.history.pushState({}, '', path);
+function navigate(path) {
+  history.pushState({}, '', path);
   renderRoute(path);
-};
+}
 
 // Inicializar el router
-const initializeRouter = () => {
+function initializeRouter() {
+  // Manejar la navegación del historial
   window.addEventListener('popstate', () => {
     renderRoute(window.location.pathname);
   });
   
+  // Manejar los clics en enlaces internos
   document.addEventListener('click', (e) => {
+    // Solo procesar si es un enlace interno con data-link
     if (e.target.matches('[data-link]')) {
       e.preventDefault();
       navigate(e.target.href);
@@ -50,10 +53,10 @@ const initializeRouter = () => {
   
   // Manejar la primera carga
   renderRoute(window.location.pathname);
-};
+}
 
 // Renderizar la ruta actual
-const renderRoute = (path) => {
+function renderRoute(path) {
   const contentArea = document.getElementById('app-content');
   if (!contentArea) return;
   
@@ -107,10 +110,10 @@ const renderRoute = (path) => {
         </div>
       `;
     });
-};
+}
 
 // Funciones auxiliares
-const initPageComponents = (routeName) => {
+function initPageComponents(routeName) {
   // Inicializar componentes específicos según la página
   switch(routeName) {
     case 'doctor-dashboard':
@@ -138,9 +141,9 @@ const initPageComponents = (routeName) => {
       initDoctorLogin();
       break;
   }
-};
+}
 
-const updatePageTitle = (routeName) => {
+function updatePageTitle(routeName) {
   const titles = {
     'landing': 'MediVzla - Sistema Médico Profesional',
     'nosotros': 'Sobre Nosotros - MediVzla',
@@ -169,9 +172,9 @@ const updatePageTitle = (routeName) => {
   };
   
   document.title = titles[routeName] || 'MediVzla - Sistema Médico Profesional';
-};
+}
 
-const updateNavigationState = () => {
+function updateNavigationState() {
   // Actualizar la clase 'active' en el menú de navegación
   const navLinks = document.querySelectorAll('.nav-list a[data-link]');
   navLinks.forEach(link => {
@@ -182,14 +185,190 @@ const updateNavigationState = () => {
       link.classList.remove('active');
     }
   });
-};
+}
+
+// Funciones para las páginas
+function initDashboard() {
+  console.log('Dashboard initialized');
+  // Lógica específica para dashboard
+  if (document.querySelector('.dashboard-container')) {
+    renderCitas();
+    renderPacientes();
+    renderServicios();
+  }
+}
+
+function initCitas() {
+  console.log('Citas page initialized');
+  // Lógica específica para citas
+  if (document.querySelector('.citas-list')) {
+    renderCitas();
+  }
+}
+
+function initMonedero() {
+  console.log('Monedero page initialized');
+  // Lógica específica para monedero
+  if (document.querySelector('.monedero-container')) {
+    renderMonedero();
+  }
+}
+
+function initLandingPage() {
+  console.log('Landing page initialized');
+}
+
+function initPacienteRegistro() {
+  console.log('Paciente registro initialized');
+  if (document.querySelector('.registration-steps')) {
+    renderSintomas();
+    renderEnfermedades();
+  }
+}
+
+function initPacienteLogin() {
+  console.log('Paciente login initialized');
+  const loginForm = document.getElementById('paciente-login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Validar campos
+      let isValid = true;
+      const emailError = document.getElementById('email-error');
+      const passwordError = document.getElementById('password-error');
+      
+      emailError.textContent = '';
+      passwordError.textContent = '';
+      
+      if (!email) {
+        emailError.textContent = 'El correo es obligatorio';
+        isValid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        emailError.textContent = 'Formato de correo inválido';
+        isValid = false;
+      }
+      
+      if (!password) {
+        passwordError.textContent = 'La contraseña es obligatoria';
+        isValid = false;
+      } else if (password.length < 6) {
+        passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres';
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Intentar login
+      const result = login(email, password, false);
+      
+      if (result.success) {
+        showToast('Inicio de sesión exitoso', 'success');
+        // Redirigir al portal después de un breve retraso
+        setTimeout(() => {
+          navigate('/paciente/portal');
+        }, 1000);
+      } else {
+        showToast(result.error, 'error');
+      }
+    });
+  }
+}
+
+function initPacientePortal() {
+  console.log('Paciente portal initialized');
+  if (document.querySelector('.dashboard-container')) {
+    // Renderizar datos del paciente
+    renderPacientePortal();
+  }
+}
+
+function initDoctorLogin() {
+  console.log('Doctor login initialized');
+  const loginForm = document.getElementById('doctor-login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Validar campos
+      let isValid = true;
+      const emailError = document.getElementById('email-error');
+      const passwordError = document.getElementById('password-error');
+      
+      emailError.textContent = '';
+      passwordError.textContent = '';
+      
+      if (!email) {
+        emailError.textContent = 'El correo es obligatorio';
+        isValid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        emailError.textContent = 'Formato de correo inválido';
+        isValid = false;
+      }
+      
+      if (!password) {
+        passwordError.textContent = 'La contraseña es obligatoria';
+        isValid = false;
+      } else if (password.length < 6) {
+        passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres';
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Intentar login
+      const result = login(email, password, false);
+      
+      if (result.success) {
+        showToast('Inicio de sesión exitoso', 'success');
+        // Redirigir al dashboard después de un breve retraso
+        setTimeout(() => {
+          navigate('/doctor/dashboard');
+        }, 1000);
+      } else {
+        showToast(result.error, 'error');
+      }
+    });
+  }
+}
 
 // Inicializar el router cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
   // Inicializar el sistema de enrutamiento
-  initializeRouter();
+  if (typeof initializeRouter === 'function') {
+    initializeRouter();
+  }
+  
+  // Configurar menú responsive
+  const menuToggle = document.getElementById('menuToggle');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      document.getElementById('mainNav').classList.toggle('active');
+    });
+  }
+  
+  // Configurar modo oscuro
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    
+    // Aplicar modo oscuro si está guardado
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    }
+  }
 });
 
-// Exportar las funciones necesarias
+// Exportar funciones para uso global
 window.navigate = navigate;
 window.initializeRouter = initializeRouter;
