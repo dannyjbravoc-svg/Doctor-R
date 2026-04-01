@@ -1,25 +1,20 @@
 // src/js/app.js
-import { initializeRouter } from './router.js';
-
-export const initApp = () => {
+document.addEventListener('DOMContentLoaded', () => {
   console.log('Aplicación inicializada');
   
   // Inicializar el router
-  initializeRouter();
+  if (typeof initializeRouter === 'function') {
+    initializeRouter();
+  }
   
   // Inicializar otros componentes globales
   initGlobalComponents();
-};
+});
 
 const initGlobalComponents = () => {
   // Configurar notificaciones
   if (document.querySelector('.toast-container')) {
     initNotifications();
-  }
-  
-  // Configurar dark mode
-  if (document.querySelector('.dark-mode-toggle')) {
-    initDarkMode();
   }
   
   // Configurar menú responsive
@@ -54,7 +49,7 @@ const initDarkMode = () => {
   }
 };
 
-// Inicializar la aplicación cuando el DOM esté listo
+// Inicializar el sistema
 document.addEventListener('DOMContentLoaded', () => {
-  initApp();
+  initGlobalComponents();
 });

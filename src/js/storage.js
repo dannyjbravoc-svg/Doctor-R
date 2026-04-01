@@ -1,5 +1,9 @@
 // src/js/storage.js
-export const initStorage = () => {
+document.addEventListener('DOMContentLoaded', () => {
+  initStorage();
+});
+
+const initStorage = () => {
   console.log('Storage system initialized');
   
   // Inicializar el almacenamiento local

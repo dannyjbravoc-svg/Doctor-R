@@ -29,12 +29,14 @@ const routes = {
 
 let currentRoute = null;
 
-export const navigate = (path) => {
+// Función para navegar a una ruta
+const navigate = (path) => {
   window.history.pushState({}, '', path);
   renderRoute(path);
 };
 
-export const initializeRouter = () => {
+// Inicializar el router
+const initializeRouter = () => {
   window.addEventListener('popstate', () => {
     renderRoute(window.location.pathname);
   });
@@ -50,6 +52,7 @@ export const initializeRouter = () => {
   renderRoute(window.location.pathname);
 };
 
+// Renderizar la ruta actual
 const renderRoute = (path) => {
   const contentArea = document.getElementById('app-content');
   if (!contentArea) return;
@@ -186,3 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar el sistema de enrutamiento
   initializeRouter();
 });
+
+// Exportar las funciones necesarias
+window.navigate = navigate;
+window.initializeRouter = initializeRouter;
