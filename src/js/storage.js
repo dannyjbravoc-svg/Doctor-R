@@ -1,19 +1,10 @@
 // src/js/storage.js
 import { seedData } from './seed-data.js';
 
+// Inicializar el sistema de almacenamiento
 document.addEventListener('DOMContentLoaded', () => {
   initStorage();
 });
-
-const initStorage = () => {
-  console.log('Storage system initialized');
-  seedData();
-  
-  // Inicializar el sistema monetario
-  if (typeof updateCurrencyDisplay === 'function') {
-    updateCurrencyDisplay();
-  }
-};
 
 // Funciones para manejar datos
 export const getUsers = () => {
@@ -175,7 +166,7 @@ export const saveConfig = (config) => {
   return config;
 };
 
-// Inicializar el almacenamiento al cargar
-document.addEventListener('DOMContentLoaded', () => {
-  initStorage();
-});
+const initStorage = () => {
+  console.log('Storage system initialized');
+  seedData();
+};

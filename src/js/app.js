@@ -14,13 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initGlobalComponents() {
   // Configurar notificaciones
-  initNotifications();
+  if (document.querySelector('.toast-container')) {
+    initNotifications();
+  }
   
   // Configurar menú responsive
-  const menuToggle = document.getElementById('menuToggle');
-  if (menuToggle) {
-    menuToggle.addEventListener('click', toggleMenu);
-  }
+  document.getElementById('menuToggle').addEventListener('click', toggleMenu);
   
   // Configurar modo oscuro
   const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -43,6 +42,10 @@ function toggleDarkMode() {
   document.body.classList.toggle('dark-mode');
   const isDarkMode = document.body.classList.contains('dark-mode');
   localStorage.setItem('darkMode', isDarkMode);
+}
+
+function initNotifications() {
+  // Lógica para notificaciones
 }
 
 function initDarkMode() {
