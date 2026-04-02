@@ -14,9 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initGlobalComponents() {
   // Configurar notificaciones
-  if (document.querySelector('.toast-container')) {
-    initNotifications();
-  }
+  initNotifications();
   
   // Configurar menú responsive
   document.getElementById('menuToggle').addEventListener('click', toggleMenu);
