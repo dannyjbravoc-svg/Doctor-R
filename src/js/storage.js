@@ -166,6 +166,7 @@ export const saveConfig = (config) => {
   return config;
 };
 
+// Función de inicialización
 const initStorage = () => {
   console.log('Storage system initialized');
   seedData();

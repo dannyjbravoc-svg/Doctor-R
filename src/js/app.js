@@ -17,7 +17,10 @@ function initGlobalComponents() {
   initNotifications();
   
   // Configurar menú responsive
-  document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+  const menuToggle = document.getElementById('menuToggle');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', toggleMenu);
+  }
   
   // Configurar modo oscuro
   const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -44,6 +47,7 @@ function toggleDarkMode() {
 
 function initNotifications() {
   // Lógica para notificaciones
+  console.log('Notificaciones inicializadas');
 }
 
 function initDarkMode() {
