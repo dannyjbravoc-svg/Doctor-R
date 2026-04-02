@@ -1,5 +1,5 @@
 // src/js/currency.js
-import { updateCurrencyDisplay } from './ui.js';
+// Sistema de monedas - Sin dependencias circulares
 
 const CURRENCY_KEY = 'medivzla_tasa_cambio';
 
@@ -15,6 +15,10 @@ export const setTasaCambio = (nuevaTasa) => {
   });
   
   localStorage.setItem('medivzla_config', JSON.stringify(config));
+  
+  // Emitir evento de cambio de tasa
+  window.dispatchEvent(new CustomEvent('currencyUpdated', { detail: { tasa: config.tasaCambio } }));
+  
   return config.tasaCambio;
 };
 
@@ -55,6 +59,7 @@ export const formatDual = (montoUSD) => {
   return `${formatUSD(montoUSD)} / ${formatBS(montoBS)}`;
 };
 
+// Función para actualizar todos los elementos de moneda en la página
 export const updateCurrencyDisplay = () => {
   // Actualizar todos los elementos con clase 'currency-display'
   document.querySelectorAll('.currency-display').forEach(el => {
@@ -65,7 +70,7 @@ export const updateCurrencyDisplay = () => {
   });
 };
 
-// Inicializar el sistema monetario
+// Inicializar el sistema monetario cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
   updateCurrencyDisplay();
 });

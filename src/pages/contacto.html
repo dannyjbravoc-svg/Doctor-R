@@ -52,7 +52,7 @@
           
           <div class="form-group">
             <label for="message">Mensaje</label>
-            <textarea id="message" required></textarea>
+            <textarea id="message" rows="5" required></textarea>
           </div>
           
           <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
@@ -70,20 +70,32 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      // Validar formulario
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const subject = document.getElementById('subject').value;
       const message = document.getElementById('message').value;
       
+      // Validar formulario
       if (!name || !email || !subject || !message) {
-        showToast('Por favor, completa todos los campos', 'error');
+        if (typeof window.showToast === 'function') {
+          window.showToast('Por favor, completa todos los campos', 'error');
+        }
+        return;
+      }
+      
+      // Validar email
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        if (typeof window.showToast === 'function') {
+          window.showToast('Por favor, ingresa un correo válido', 'error');
+        }
         return;
       }
       
       // Enviar formulario (simulado)
       setTimeout(() => {
-        showToast('Mensaje enviado exitosamente', 'success');
+        if (typeof window.showToast === 'function') {
+          window.showToast('Mensaje enviado exitosamente', 'success');
+        }
         contactForm.reset();
       }, 1000);
     });

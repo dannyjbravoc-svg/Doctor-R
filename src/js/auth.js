@@ -1,5 +1,14 @@
 // src/js/auth.js
-import { navigate } from './router.js';
+// Sistema de autenticación corregido
+
+// navigate se usa globalmente, no importamos de router.js
+const navigate = (path) => {
+  if (typeof window.navigate === 'function') {
+    window.navigate(path);
+  } else {
+    window.location.href = path;
+  }
+};
 
 export const login = (email, password, rememberMe) => {
   const users = JSON.parse(localStorage.getItem('medivzla_users') || '[]');

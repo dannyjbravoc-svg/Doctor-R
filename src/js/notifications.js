@@ -8,6 +8,34 @@ const NOTIFICATION_TYPES = {
   ERROR: 'error'
 };
 
+// Función showToast - alias de showNotification para compatibilidad
+export const showToast = (message, type = 'info', duration = 3000) => {
+  const toastContainer = document.getElementById('toastContainer');
+  if (!toastContainer) {
+    console.warn('Toast container not found');
+    return;
+  }
+  
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `
+    <div class="toast-content">
+      <span>${message}</span>
+      <button class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
+    </div>
+  `;
+  
+  toastContainer.appendChild(toast);
+  
+  // Auto-ocultar
+  if (duration > 0) {
+    setTimeout(() => {
+      toast.classList.add('toast-hide');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
+};
+
 export const showNotification = (title, message, type = NOTIFICATION_TYPES.INFO, duration = 5000) => {
   const notification = {
     id: generateNotificationId(),
@@ -156,13 +184,6 @@ const formatTimeAgo = (timestamp) => {
 
 // Inicializar notificaciones cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-  // Mostrar notificaciones de bienvenida para demo
-  if (checkAuth()) {
-    const user = getCurrentUser();
-    if (user) {
-      showNotification('Bienvenido', `Hola ${user.nombre}, ¡bienvenido de vuelta!`, NOTIFICATION_TYPES.SUCCESS, 3000);
-    }
-  }
-  
+  // Inicializar sistema de notificaciones
   initNotifications();
 });

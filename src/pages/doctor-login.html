@@ -32,7 +32,7 @@
       
       <div class="auth-footer">
         <p>¿Eres paciente? <a href="/paciente/login" data-link>Ingresa aquí</a></p>
-        <p><a href="/doctor/monedero" data-link>¿Olvidaste tu contraseña?</a></p>
+        <p><a href="/doctor/recuperar" data-link>¿Olvidaste tu contraseña?</a></p>
       </div>
     </div>
   </div>
@@ -42,51 +42,81 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('doctor-login-form');
   
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const remember = document.getElementById('remember').checked;
-    
-    // Validar campos
-    let isValid = true;
-    const emailError = document.getElementById('email-error');
-    const passwordError = document.getElementById('password-error');
-    
-    emailError.textContent = '';
-    passwordError.textContent = '';
-    
-    if (!email) {
-      emailError.textContent = 'El correo es obligatorio';
-      isValid = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      emailError.textContent = 'Formato de correo inválido';
-      isValid = false;
-    }
-    
-    if (!password) {
-      passwordError.textContent = 'La contraseña es obligatoria';
-      isValid = false;
-    } else if (password.length < 6) {
-      passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres';
-      isValid = false;
-    }
-    
-    if (!isValid) return;
-    
-    // Intentar login
-    const result = login(email, password, remember);
-    
-    if (result.success) {
-      showToast('Inicio de sesión exitoso', 'success');
-      // Redirigir al dashboard después de un breve retraso
-      setTimeout(() => {
-        navigate('/doctor/dashboard');
-      }, 1000);
-    } else {
-      showToast(result.error, 'error');
-    }
-  });
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember')?.checked || false;
+      
+      // Validar campos
+      let isValid = true;
+      const emailError = document.getElementById('email-error');
+      const passwordError = document.getElementById('password-error');
+      
+      if (emailError) emailError.textContent = '';
+      if (passwordError) passwordError.textContent = '';
+      
+      if (!email) {
+        if (emailError) emailError.textContent = 'El correo es obligatorio';
+        isValid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        if (emailError) emailError.textContent = 'Formato de correo inválido';
+        isValid = false;
+      }
+      
+      if (!password) {
+        if (passwordError) passwordError.textContent = 'La contraseña es obligatoria';
+        isValid = false;
+      } else if (password.length < 6) {
+        if (passwordError) passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres';
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Intentar login
+      try {
+        const users = JSON.parse(localStorage.getItem('medivzla_users') || '[]');
+        const user = users.find(u => u.email === email && u.password === btoa(password));
+        
+        if (user) {
+          const session = {
+            token: btoa(`${user.id}:${Date.now()}`),
+            userId: user.id,
+            role: user.role,
+            expires: remember ? Date.now() + 30 * 24 * 60 * 60 * 1000 : Date.now() + 24 * 60 * 60 * 1000
+          };
+          
+          localStorage.setItem('medivzla_session', JSON.stringify(session));
+          localStorage.setItem('medivzla_user', JSON.stringify(user));
+          
+          // Usar función global showToast
+          if (typeof window.showToast === 'function') {
+            window.showToast('Inicio de sesión exitoso', 'success');
+          }
+          
+          // Redirigir al dashboard usando función global navigate
+          setTimeout(() => {
+            if (typeof window.navigate === 'function') {
+              window.navigate('/doctor/dashboard');
+            } else {
+              window.location.href = '/doctor/dashboard';
+            }
+          }, 1000);
+        } else {
+          if (typeof window.showToast === 'function') {
+            window.showToast('Credenciales inválidas', 'error');
+          }
+        }
+      } catch (error) {
+        console.error('Error en login:', error);
+        if (typeof window.showToast === 'function') {
+          window.showToast('Error al iniciar sesión', 'error');
+        }
+      }
+    });
+  }
 });
 </script>

@@ -7,23 +7,38 @@
     <meta name="keywords" content="sistema médico, Venezuela, USD, Bs, clínica, gestión médica">
     <meta name="author" content="MediVzla Team">
     <meta name="robots" content="index, follow">
-    
+
+    <!-- Script para compatibilidad con SPA - Debe estar lo más arriba posible -->
+    <script>
+      (function() {
+        const originalAddEventListener = document.addEventListener;
+        document.addEventListener = function(type, listener, options) {
+          if (type === 'DOMContentLoaded' && window.isSPALoading) {
+            // Ejecutar inmediatamente si estamos cargando un partial en el router
+            listener();
+          } else {
+            originalAddEventListener.call(document, type, listener, options);
+          }
+        };
+      })();
+    </script>
+
     <!-- Base href para resolver problemas de rutas -->
     <base href="/">
-    
+
     <!-- Open Graph / Twitter Card -->
     <meta property="og:title" content="MediVzla - Sistema Médico Profesional">
     <meta property="og:description" content="Sistema médico moderno con manejo monetario dual para profesionales de la salud en Venezuela">
     <meta property="og:image" content="/assets/images/og-image.jpg">
     <meta property="og:url" content="https://medivzla.netlify.app">
     <meta property="og:type" content="website">
-    
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@medivzla">
     <meta name="twitter:title" content="MediVzla - Sistema Médico Profesional">
     <meta name="twitter:description" content="Sistema médico moderno con manejo monetario dual para profesionales de la salud en Venezuela">
     <meta name="twitter:image" content="/assets/images/og-image.jpg">
-    
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
@@ -32,7 +47,7 @@
     <link rel="mask-icon" href="/assets/images/favicon/safari-pinned-tab.svg" color="#1a64b0">
     <meta name="msapplication-TileColor" content="#1a64b0">
     <meta name="theme-color" content="#1a64b0">
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="/src/css/variables.css">
     <link rel="stylesheet" href="/src/css/reset.css">
@@ -47,13 +62,13 @@
     <link rel="stylesheet" href="/src/css/animations.css">
     <link rel="stylesheet" href="/src/css/print.css">
     <link rel="stylesheet" href="/src/css/darkmode.css">
-    
+
     <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Title -->
     <title>MediVzla - Sistema Médico Profesional</title>
-    
+
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'">
 </head>
@@ -65,7 +80,7 @@
                 <img src="/assets/images/logo-medivzla.svg" alt="MediVzla" class="logo-img">
                 <span class="logo-text">Medi<span>VZLA</span></span>
             </a>
-            
+
             <nav class="nav" id="mainNav">
                 <ul class="nav-list">
                     <li><a href="/nosotros" data-link>Nosotros</a></li>
@@ -74,13 +89,13 @@
                     <li><a href="/doctor/login" data-link class="btn btn-outline">Ingresar</a></li>
                 </ul>
             </nav>
-            
+
             <button class="menu-toggle" id="menuToggle">
                 <span class="hamburger"></span>
             </button>
         </div>
     </header>
-    
+
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
@@ -96,20 +111,20 @@
                                 <a href="/paciente/registro" class="btn btn-outline">Registrarse como Paciente</a>
                             </div>
                         </div>
-                        
+
                         <div class="hero-features">
                             <div class="feature-card">
                                 <div class="feature-icon">💰</div>
                                 <h3>Manejo Monetario Dual</h3>
                                 <p>Sistema inteligente que convierte entre USD y Bs con la tasa actualizada</p>
                             </div>
-                            
+
                             <div class="feature-card">
-                                <div class="feature-icon">🏥</div>
+                                <div class="feature-icon">Stetoscope</div>
                                 <h3>Gestión Completa</h3>
                                 <p>Controla citas, pacientes, servicios y pagos en una sola plataforma</p>
                             </div>
-                            
+
                             <div class="feature-card">
                                 <div class="feature-icon">📱</div>
                                 <h3>100% Responsivo</h3>
@@ -121,7 +136,7 @@
             </div>
         </div>
     </main>
-    
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -133,7 +148,7 @@
                     </a>
                     <p>Sistema médico moderno para profesionales de la salud en Venezuela con manejo monetario dual.</p>
                 </div>
-                
+
                 <div class="footer-col">
                     <h3>Navegación</h3>
                     <ul class="footer-links">
@@ -144,7 +159,7 @@
                         <li><a href="/privacidad" data-link>Privacidad</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-col">
                     <h3>Para Doctores</h3>
                     <ul class="footer-links">
@@ -154,7 +169,7 @@
                         <li><a href="/doctor/monedero" data-link>Monedero</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-col">
                     <h3>Para Pacientes</h3>
                     <ul class="footer-links">
@@ -165,14 +180,14 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2023 MediVzla. Todos los derechos reservados.</p>
                 <p>Desarrollado con ❤️ para profesionales de la salud en Venezuela</p>
             </div>
         </div>
     </footer>
-    
+
     <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
     

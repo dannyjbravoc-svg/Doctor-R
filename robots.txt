@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+Sitemap: https://medivzla.netlify.app/sitemap.xml
+
+# Bloquear rutas internas
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /assets/images/icons/
+Disallow: /assets/images/illustrations/
+
+# Evitar indexación de parámetros de URL
+Disallow: /*?
+
+# Directivas específicas para bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Bloquear contenido sensible
+Disallow: /doctor/login
+Disallow: /paciente/login
+Disallow: /paciente/registro

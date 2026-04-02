@@ -1,8 +1,5 @@
 // src/js/router.js
-import { navigate } from './app.js';
-import { requireAuth, requireRole, checkAuth } from './auth.js';
-import { showToast } from './notifications.js';
-import { updateCurrencyDisplay } from './ui.js';
+// Router corregido - sin dependencias circulares
 
 const routes = {
   '/': 'landing',
@@ -14,8 +11,11 @@ const routes = {
   '/doctor/login': 'doctor-login',
   '/doctor/dashboard': 'doctor-dashboard',
   '/doctor/citas': 'doctor-citas',
+  '/doctor/citas/nueva': 'doctor-citas-nueva',
+  '/doctor/citas/editar/:id': 'doctor-citas-editar',
   '/doctor/pacientes': 'doctor-pacientes',
   '/doctor/pacientes/:id': 'doctor-paciente-detail',
+  '/doctor/pacientes/editar/:id': 'doctor-paciente-editar',
   '/doctor/servicios': 'doctor-servicios',
   '/doctor/monedero': 'doctor-monedero',
   '/doctor/evidencias': 'doctor-evidencias',
@@ -23,10 +23,11 @@ const routes = {
   '/doctor/perfil': 'doctor-perfil',
   '/paciente/registro': 'paciente-registro',
   '/paciente/login': 'paciente-login',
+  '/paciente/recuperar': 'paciente-recuperar',
   '/paciente/portal': 'paciente-portal',
   '/paciente/agendar': 'paciente-agendar',
   '/paciente/mis-citas': 'paciente-mis-citas',
-  '/paciente/mis-citas/:id': 'paciente-mis-citas',
+  '/paciente/mis-citas/:id': 'paciente-mis-citas-detalle',
   '/paciente/pagos': 'paciente-pagos',
   '/paciente/historial': 'paciente-historial',
   '/paciente/perfil': 'paciente-perfil'
@@ -35,10 +36,20 @@ const routes = {
 let currentRoute = null;
 let currentRouteParams = {};
 
-// Función para navegar a una ruta
+// Función para navegar a una ruta - expuesta globalmente
 export function navigate(path) {
-  history.pushState({}, '', path);
+  window.history.pushState({}, '', path);
   renderRoute(path);
+}
+
+// Función para obtener la ruta actual
+export function getCurrentRoute() {
+  return currentRoute;
+}
+
+// Función para obtener parámetros de la ruta actual
+export function getRouteParams() {
+  return currentRouteParams;
 }
 
 // Inicializar el router
@@ -47,24 +58,34 @@ export function initializeRouter() {
   window.addEventListener('popstate', () => {
     renderRoute(window.location.pathname);
   });
-  
-  // Manejar los clics en enlaces internos
+
+  // Delegación de eventos para enlaces internos con data-link
   document.addEventListener('click', (e) => {
-    // Solo procesar si es un enlace interno con data-link
-    if (e.target.matches('[data-link]')) {
+    // Buscar el enlace más cercano con data-link
+    const link = e.target.closest('[data-link]');
+    if (link) {
       e.preventDefault();
-      navigate(e.target.getAttribute('href'));
+      const href = link.getAttribute('href');
+      if (href) {
+        navigate(href);
+      }
     }
   });
-  
+
   // Manejar la primera carga
   renderRoute(window.location.pathname);
+
+  // Debug: confirmar router inicializado
+  console.log('Router inicializado correctamente');
 }
 
 // Renderizar la ruta actual
 function renderRoute(path) {
   const contentArea = document.getElementById('app-content');
-  if (!contentArea) return;
+  if (!contentArea) {
+    console.error('No se encontró el contenedor #app-content');
+    return;
+  }
   
   // Limpiar y mostrar estado de carga
   contentArea.innerHTML = `
@@ -73,36 +94,38 @@ function renderRoute(path) {
       <div class="loading-spinner"></div>
     </div>
   `;
-  
+
   // Determinar la ruta
   let routeName = routes[path] || '404';
   
   // Si es una ruta dinámica
   if (routeName === '404' && path !== '/404') {
     const dynamicRoutes = Object.keys(routes).filter(r => r.includes(':'));
-    
+
     for (const route of dynamicRoutes) {
-      const routePattern = new RegExp(`^${route.replace(/:\w+/g, '([\\w-]+)')}$`);
+      const routePattern = new RegExp('^' + route.replace(/:\w+/g, '([\\\\w-]+)') + '$');
       const match = path.match(routePattern);
-      
+
       if (match) {
         routeName = routes[route];
         
         // Extraer parámetros
-        const paramNames = route.match(/:([^/]+)/g).map(param => param.slice(1));
+        const paramNames = route.match(/:([^/]+)/g)?.map(param => param.slice(1)) || [];
         currentRouteParams = {};
-        
+
         for (let i = 1; i < match.length; i++) {
-          currentRouteParams[paramNames[i - 1]] = match[i];
+          if (paramNames[i - 1]) {
+            currentRouteParams[paramNames[i - 1]] = match[i];
+          }
         }
-        
+
         break;
       }
     }
   }
-  
-  // Cargar la página
-  fetch(`src/pages/${routeName}.html`)
+
+  // Cargar la página - usar ruta absoluta para funcionar en Netlify
+  fetch(\`/src/pages/\${routeName}.html\`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Página no encontrada');
@@ -112,56 +135,62 @@ function renderRoute(path) {
     .then(html => {
       contentArea.innerHTML = html;
       currentRoute = routeName;
-      initPageComponents(routeName);
+
+      // Establecer parámetros de ruta en el contexto global
+      window.currentRouteParams = currentRouteParams;
+
+      // Ejecutar scripts inline si los hay
+      executeInlineScripts(contentArea);
+
       updatePageTitle(routeName);
       updateNavigationState();
-      
-      // Establecer parámetros de ruta en el contexto
-      window.currentRouteParams = currentRouteParams;
+      initPageComponents(routeName);
     })
     .catch(error => {
-      contentArea.innerHTML = `
+      console.error('Error cargando página:', error);
+      contentArea.innerHTML = \`
         <div class="container" style="padding: 100px 0; text-align: center;">
           <h2>Página no encontrada</h2>
           <p>La página que estás buscando no existe.</p>
           <a href="/" data-link class="btn btn-primary">Regresar al inicio</a>
         </div>
-      `;
+      \`;
     });
+}
+
+// Ejecutar scripts inline en el contenido cargado
+function executeInlineScripts(container) {
+  const scripts = container.querySelectorAll('script');
+  
+  // Establecer flag para que document.addEventListener('DOMContentLoaded', ...) funcione en SPAs
+  window.isSPALoading = true;
+  
+  scripts.forEach(script => {
+    const newScript = document.createElement('script');
+    if (script.src) {
+      newScript.src = script.src;
+    } else {
+      newScript.textContent = script.textContent;
+    }
+    document.body.appendChild(newScript);
+    script.remove();
+  });
+  
+  // Limpiar flag después de ejecutar los scripts (asincrónicamente para dar tiempo a los scripts a ejecutarse)
+  setTimeout(() => {
+    window.isSPALoading = false;
+  }, 100);
 }
 
 // Funciones auxiliares
 function initPageComponents(routeName) {
-  // Inicializar componentes específicos según la página
-  switch(routeName) {
-    case 'doctor-dashboard':
-      initDashboard();
-      break;
-    case 'doctor-monedero':
-      initMonedero();
-      break;
-    case 'doctor-citas':
-      initCitas();
-      break;
-    case 'landing':
-      initLandingPage();
-      break;
-    case 'paciente-registro':
-      initPacienteRegistro();
-      break;
-    case 'paciente-login':
-      initPacienteLogin();
-      break;
-    case 'paciente-portal':
-      initPacientePortal();
-      break;
-    case 'doctor-login':
-      initDoctorLogin();
-      break;
-    case 'doctor-paciente-detail':
-      initPacienteDetail();
-      break;
-  }
+  // Emitir evento personalizado para que otros módulos puedan inicializarse
+  const event = new CustomEvent('routeChanged', {
+    detail: { route: routeName, params: currentRouteParams }
+  });
+  document.dispatchEvent(event);
+
+  console.log(\`Página cargada: \${routeName}\`);
 }
 
 function updatePageTitle(routeName) {
@@ -191,7 +220,7 @@ function updatePageTitle(routeName) {
     'paciente-historial': 'Historial Médico - MediVzla',
     'paciente-perfil': 'Mi Perfil - MediVzla'
   };
-  
+
   document.title = titles[routeName] || 'MediVzla - Sistema Médico Profesional';
 }
 
@@ -208,258 +237,10 @@ function updateNavigationState() {
   });
 }
 
-// Funciones para las páginas
-function initDashboard() {
-  console.log('Dashboard initialized');
-  // Lógica específica para dashboard
-  if (document.querySelector('.dashboard-container')) {
-    renderCitas(getCitas().slice(0, 3));
-    renderPacientes(getPacientes().slice(0, 5));
-    renderServicios(getServicios().slice(0, 4));
-  }
-}
-
-function initCitas() {
-  console.log('Citas page initialized');
-  // Lógica específica para citas
-  if (document.querySelector('.citas-list')) {
-    renderCitas(getCitas());
-  }
-}
-
-function initMonedero() {
-  console.log('Monedero page initialized');
-  // Lógica específica para monedero
-  if (document.querySelector('.monedero-container')) {
-    renderMonedero();
-  }
-}
-
-function initLandingPage() {
-  console.log('Landing page initialized');
-}
-
-function initPacienteRegistro() {
-  console.log('Paciente registro initialized');
-  if (document.querySelector('.registration-steps')) {
-    renderSintomas();
-    renderEnfermedades();
-  }
-}
-
-function initPacienteLogin() {
-  console.log('Paciente login initialized');
-  const loginForm = document.getElementById('paciente-login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      // Validar campos
-      let isValid = true;
-      const emailError = document.getElementById('email-error');
-      const passwordError = document.getElementById('password-error');
-      
-      emailError.textContent = '';
-      passwordError.textContent = '';
-      
-      if (!email) {
-        emailError.textContent = 'El correo es obligatorio';
-        isValid = false;
-      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-        emailError.textContent = 'Formato de correo inválido';
-        isValid = false;
-      }
-      
-      if (!password) {
-        passwordError.textContent = 'La contraseña es obligatoria';
-        isValid = false;
-      } else if (password.length < 6) {
-        passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres';
-        isValid = false;
-      }
-      
-      if (!isValid) return;
-      
-      // Intentar login
-      const result = login(email, password, false);
-      
-      if (result.success) {
-        showToast('Inicio de sesión exitoso', 'success');
-        // Redirigir al portal después de un breve retraso
-        setTimeout(() => {
-          navigate('/paciente/portal');
-        }, 1000);
-      } else {
-        showToast(result.error, 'error');
-      }
-    });
-  }
-}
-
-function initPacientePortal() {
-  console.log('Paciente portal initialized');
-  if (document.querySelector('.dashboard-container')) {
-    // Renderizar datos del paciente
-    renderPacientePortal();
-  }
-}
-
-function initDoctorLogin() {
-  console.log('Doctor login initialized');
-  const loginForm = document.getElementById('doctor-login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      // Validar campos
-      let isValid = true;
-      const emailError = document.getElementById('email-error');
-      const passwordError = document.getElementById('password-error');
-      
-      emailError.textContent = '';
-      passwordError.textContent = '';
-      
-      if (!email) {
-        emailError.textContent = 'El correo es obligatorio';
-        isValid = false;
-      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-        emailError.textContent = 'Formato de correo inválido';
-        isValid = false;
-      }
-      
-      if (!password) {
-        passwordError.textContent = 'La contraseña es obligatoria';
-        isValid = false;
-      } else if (password.length < 6) {
-        passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres';
-        isValid = false;
-      }
-      
-      if (!isValid) return;
-      
-      // Intentar login
-      const result = login(email, password, false);
-      
-      if (result.success) {
-        showToast('Inicio de sesión exitoso', 'success');
-        // Redirigir al dashboard después de un breve retraso
-        setTimeout(() => {
-          navigate('/doctor/dashboard');
-        }, 1000);
-      } else {
-        showToast(result.error, 'error');
-      }
-    });
-  }
-}
-
-function initPacienteDetail() {
-  const params = window.currentRouteParams || {};
-  if (!params.id) {
-    navigate('/doctor/pacientes');
-    return;
-  }
-  
-  const paciente = getPacienteById(params.id);
-  if (!paciente) {
-    navigate('/doctor/pacientes');
-    return;
-  }
-  
-  renderPacienteDetail(paciente);
-}
-
-// Inicializar el router cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar el sistema de enrutamiento
-  if (typeof initializeRouter === 'function') {
-    initializeRouter();
-  }
-  
-  // Configurar menú responsive
-  const menuToggle = document.getElementById('menuToggle');
-  if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-      document.getElementById('mainNav').classList.toggle('active');
-    });
-  }
-  
-  // Configurar modo oscuro
-  const darkModeToggle = document.getElementById('dark-mode-toggle');
-  if (darkModeToggle) {
-    darkModeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-    });
-    
-    // Aplicar modo oscuro si está guardado
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (isDarkMode) {
-      document.body.classList.add('dark-mode');
-    }
-  }
-});
-
-// Funciones auxiliares (deben definirse en otros módulos, pero las incluimos aquí para evitar errores)
-function login(email, password, rememberMe) {
-  // Implementación simplificada para evitar errores
-  return { success: true };
-}
-
-function getCitas() {
-  return [];
-}
-
-function renderCitas(citas) {
-  // Implementación simplificada para evitar errores
-}
-
-function getPacientes() {
-  return [];
-}
-
-function renderPacientes(pacientes) {
-  // Implementación simplificada para evitar errores
-}
-
-function getServicios() {
-  return [];
-}
-
-function renderServicios(servicios) {
-  // Implementación simplificada para evitar errores
-}
-
-function renderMonedero() {
-  // Implementación simplificada para evitar errores
-}
-
-function renderSintomas() {
-  // Implementación simplificada para evitar errores
-}
-
-function renderEnfermedades() {
-  // Implementación simplificada para evitar errores
-}
-
-function renderPacientePortal() {
-  // Implementación simplificada para evitar errores
-}
-
-function getPacienteById(id) {
-  return { 
-    id: "usr_pat_001",
-    nombre: "María González",
-    cedula: "V23456789"
-  };
-}
-
-function renderPacienteDetail(paciente) {
-  // Implementación simplificada para evitar errores
-}
+// Exportar la instancia del router
+export const router = {
+  navigate,
+  getCurrentRoute,
+  getRouteParams,
+  routes
+};
