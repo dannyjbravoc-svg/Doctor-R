@@ -4,12 +4,12 @@
       <h1>Sistema Médico Profesional para Venezuela</h1>
       <p class="hero-description">Gestiona tus consultas médicas, pacientes y pagos con un sistema moderno que soporta el manejo monetario dual (USD/Bs).</p>
       <div class="hero-buttons">
-        <a href="/doctor/login" class="btn btn-primary">Ingresar como Doctor</a>
-        <a href="/paciente/registro" class="btn btn-outline">Registrarse como Paciente</a>
+        <a href="/doctor/login" data-link class="btn btn-primary">Ingresar como Doctor</a>
+        <a href="/paciente/registro" data-link class="btn btn-outline">Registrarse como Paciente</a>
       </div>
     </div>
     
-    <div class="hero-features">
+    <div class="hero-features grid grid-3" style="margin-top: var(--space-12); width: 100%;">
       <div class="feature-card">
         <div class="feature-icon">💰</div>
         <h3>Manejo Monetario Dual</h3>
@@ -34,78 +34,43 @@
 <section class="section">
   <div class="container">
     <h2 class="section-title">Características Principales</h2>
-    <div class="features-grid">
-      <div class="feature-item">
+    <p class="section-description">Todo lo que necesitas para digitalizar tu consulta médica con seguridad y eficiencia.</p>
+    
+    <div class="grid grid-3">
+      <div class="feature-item card">
         <div class="feature-item-icon">🔄</div>
         <h3>Conversión Automática</h3>
         <p>Todo precio se muestra en USD y Bs simultáneamente con la tasa actual</p>
       </div>
       
-      <div class="feature-item">
+      <div class="feature-item card">
         <div class="feature-item-icon">📋</div>
-        <h3>Catálogo Médico Completo</h3>
+        <h3>Catálogo Médico</h3>
         <p>75+ enfermedades y 65+ síntomas para diagnósticos precisos</p>
       </div>
       
-      <div class="feature-item">
-        <div class="feature-item-icon">📅</div>
+      <div class="feature-item card">
+        <div class="feature-icon">📅</div>
         <h3>Calendario Inteligente</h3>
         <p>Programa y gestiona tus citas con visualización clara y notificaciones</p>
       </div>
       
-      <div class="feature-item">
+      <div class="feature-item card">
         <div class="feature-item-icon">📊</div>
         <h3>Reportes Detallados</h3>
         <p>Genera reportes de ingresos, pacientes y estadísticas clave</p>
       </div>
       
-      <div class="feature-item">
+      <div class="feature-item card">
         <div class="feature-item-icon">📸</div>
-        <h3>Evidencias Fotográficas</h3>
+        <h3>Evidencias Médicas</h3>
         <p>Almacena y compara imágenes médicas con el innovador comparador before/after</p>
       </div>
       
-      <div class="feature-item">
+      <div class="feature-item card">
         <div class="feature-item-icon">🔒</div>
         <h3>Seguridad Avanzada</h3>
-        <p>Tus datos médicos están protegidos con autenticación robusta</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">Cómo Funciona</h2>
-    <div class="steps-container">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <h3>Registro</h3>
-        <p>Los pacientes se registran con sus datos y antecedentes médicos</p>
-      </div>
-      
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <h3>Agenda tu Cita</h3>
-        <p>El paciente selecciona un servicio y horario disponible</p>
-      </div>
-      
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <h3>Pago Seguro</h3>
-        <p>Realiza el pago en USD o Bs con comprobante verificable</p>
-      </div>
-      
-      <div class="step-card">
-        <div class="step-number">4</div>
-        <h3>Consulta Médica</h3>
-        <p>El doctor atiende la consulta y registra los hallazgos</p>
-      </div>
-      
-      <div class="step-card">
-        <div class="step-number">5</div>
-        <h3>Seguimiento</h3>
-        <p>El paciente recibe acceso a su historial y resultados</p>
+        <p>Tus datos médicos están protegidos con autenticación robusta y roles de usuario</p>
       </div>
     </div>
   </div>
@@ -113,18 +78,24 @@
 
 <section class="section" style="background-color: var(--color-gray-50);">
   <div class="container">
-    <div class="testimonial-container">
-      <div class="testimonial">
-        <div class="testimonial-content">
-          <p>"MediVzla ha revolucionado la forma en que gestiono mi consultorio. La capacidad de manejar pagos en USD y Bs simultáneamente es un verdadero salvavidas en la actual economía."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">DR</div>
-            <div>
-              <h4>Dr. Carlos Rodríguez</h4>
-              <p>Médico General, Caracas</p>
-            </div>
-          </div>
-        </div>
+    <h2 class="section-title">Cómo Funciona</h2>
+    <div class="grid grid-3" style="margin-top: var(--space-8);">
+      <div class="step-card">
+        <div class="step-number" style="margin: 0 auto var(--space-4);">1</div>
+        <h3>Registro</h3>
+        <p>Los pacientes se registran con sus datos y antecedentes médicos</p>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number" style="margin: 0 auto var(--space-4);">2</div>
+        <h3>Agenda Cita</h3>
+        <p>El paciente selecciona un servicio y horario disponible</p>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number" style="margin: 0 auto var(--space-4);">3</div>
+        <h3>Pago Seguro</h3>
+        <p>Realiza el pago en USD o Bs con comprobante verificable</p>
       </div>
     </div>
   </div>
