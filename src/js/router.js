@@ -1,5 +1,4 @@
-// src/js/router.js
-// Router corregido - sin dependencias circulares
+import { checkAuth, getCurrentUser } from './auth.js';
 
 const routes = {
   '/': 'landing',
@@ -86,6 +85,38 @@ function renderRoute(path) {
     console.error('No se encontró el contenedor #app-content');
     return;
   }
+
+  // --- GUARDIA DE SEGURIDAD ---
+  const isDoctorRoute = path.startsWith('/doctor/') && path !== '/doctor/login';
+  const isPacienteRoute = path.startsWith('/paciente/') && 
+                          path !== '/paciente/login' && 
+                          path !== '/paciente/registro' && 
+                          path !== '/paciente/recuperar';
+
+  if (isDoctorRoute || isPacienteRoute) {
+    const isAuthenticated = checkAuth();
+    if (!isAuthenticated) {
+      console.warn('Acceso no autorizado. Redirigiendo a login...');
+      const loginPath = isDoctorRoute ? '/doctor/login' : '/paciente/login';
+      window.history.replaceState({}, '', loginPath);
+      renderRoute(loginPath);
+      return;
+    }
+
+    // Verificar rol
+    const user = getCurrentUser();
+    if (isDoctorRoute && user.role !== 'doctor') {
+      console.warn('Rol no autorizado para esta ruta.');
+      navigate('/paciente/portal');
+      return;
+    }
+    if (isPacienteRoute && user.role !== 'paciente') {
+      console.warn('Rol no autorizado para esta ruta.');
+      navigate('/doctor/dashboard');
+      return;
+    }
+  }
+  // --- FIN GUARDIA ---
   
   // Limpiar y mostrar estado de carga
   contentArea.innerHTML = `

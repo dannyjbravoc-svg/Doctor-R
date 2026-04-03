@@ -150,7 +150,7 @@ export const renderServicios = (servicios) => {
       <div class="service-card" data-id="${servicio.id}">
         <div class="service-header">
           <h3>${servicio.nombre}</h3>
-          <span class="service-price">${formatDual(servicio.precioUSD)}</span>
+          <span class="service-price currency-display" data-usd="${servicio.precioUSD}">${formatDual(servicio.precioUSD)}</span>
         </div>
         <p>${servicio.descripcion}</p>
         <div class="service-meta">

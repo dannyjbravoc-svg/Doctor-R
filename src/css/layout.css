@@ -4,11 +4,14 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--space-4);
+  display: flex;
+  flex-direction: column;
 }
 
 .grid {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-6);
+  justify-content: center;
 }
 
 .grid-2 {
