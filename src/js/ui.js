@@ -7,7 +7,7 @@ const showToast = (message, type, duration) => {
   if (typeof window.showToast === 'function') {
     window.showToast(message, type, duration);
   } else {
-    console.log(`Toast: [\${type}] \${message}`);
+    console.log(`Toast: [${type}] ${message}`);
   }
 };
 
@@ -42,17 +42,17 @@ export const renderCitas = (citas) => {
     const servicio = getServicioById(cita.servicioId);
 
     html += `
-      <div class="appointment-item" data-id="\${cita.id}">
-        <div class="appointment-time">\${cita.hora}</div>
+      <div class="appointment-item" data-id="${cita.id}">
+        <div class="appointment-time">${cita.hora}</div>
         <div class="appointment-details">
-          <h3>\${paciente ? paciente.nombre : 'Paciente desconocido'}</h3>
-          <p>\${servicio ? servicio.nombre : 'Servicio desconocido'}</p>
-          <span class="appointment-status status-\${cita.estado}">\${formatStatus(cita.estado)}</span>
+          <h3>${paciente ? paciente.nombre : 'Paciente desconocido'}</h3>
+          <p>${servicio ? servicio.nombre : 'Servicio desconocido'}</p>
+          <span class="appointment-status status-${cita.estado}">${formatStatus(cita.estado)}</span>
         </div>
         <div class="appointment-actions">
-          <button class="btn btn-icon view-cita" data-id="\${cita.id}">👁️</button>
-          <button class="btn btn-icon edit-cita" data-id="\${cita.id}">📝</button>
-          <button class="btn btn-icon delete-cita" data-id="\${cita.id}">🗑️</button>
+          <button class="btn btn-icon view-cita" data-id="${cita.id}">👁️</button>
+          <button class="btn btn-icon edit-cita" data-id="${cita.id}">📝</button>
+          <button class="btn btn-icon delete-cita" data-id="${cita.id}">🗑️</button>
         </div>
       </div>
     `;
@@ -102,16 +102,16 @@ export const renderPacientes = (pacientes) => {
   let html = '';
   pacientes.forEach(paciente => {
     html += `
-      <div class="patient-card" data-id="\${paciente.id}">
+      <div class="patient-card" data-id="${paciente.id}">
         <div class="patient-avatar">
-          \${getInitials(paciente.nombre)}
+          ${getInitials(paciente.nombre)}
         </div>
         <div class="patient-info">
-          <h3 class="patient-name">\${paciente.nombre}</h3>
-          <p class="patient-id">\${paciente.cedula}</p>
+          <h3 class="patient-name">${paciente.nombre}</h3>
+          <p class="patient-id">${paciente.cedula}</p>
         </div>
         <div class="patient-actions">
-          <button class="btn btn-icon view-paciente" data-id="\${paciente.id}">👁️</button>
+          <button class="btn btn-icon view-paciente" data-id="${paciente.id}">👁️</button>
         </div>
       </div>
     `;
@@ -123,7 +123,7 @@ export const renderPacientes = (pacientes) => {
   document.querySelectorAll('.view-paciente').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const pacienteId = e.target.closest('button').dataset.id;
-      navigate(\`/doctor/pacientes/\${pacienteId}\`);
+      navigate(`/doctor/pacientes/${pacienteId}`);
     });
   });
 };
@@ -147,20 +147,20 @@ export const renderServicios = (servicios) => {
   let html = '';
   servicios.forEach(servicio => {
     html += `
-      <div class="service-card" data-id="\${servicio.id}">
+      <div class="service-card" data-id="${servicio.id}">
         <div class="service-header">
-          <h3>\${servicio.nombre}</h3>
-          <span class="service-price">\${formatDual(servicio.precioUSD)}</span>
+          <h3>${servicio.nombre}</h3>
+          <span class="service-price">${formatDual(servicio.precioUSD)}</span>
         </div>
-        <p>\${servicio.descripcion}</p>
+        <p>${servicio.descripcion}</p>
         <div class="service-meta">
-          <span class="service-duration">\${servicio.duracion} min</span>
-          \${servicio.preparacionRequerida ? '<span class="service-requirement">Preparación requerida</span>' : ''}
+          <span class="service-duration">${servicio.duracion} min</span>
+          ${servicio.preparacionRequerida ? '<span class="service-requirement">Preparación requerida</span>' : ''}
         </div>
         <div class="service-actions">
-          <button class="btn btn-outline edit-service" data-id="\${servicio.id}">Editar</button>
-          <button class="btn \${servicio.activo ? 'btn-danger' : 'btn-secondary'} toggle-service" data-id="\${servicio.id}">
-            \${servicio.activo ? 'Desactivar' : 'Activar'}
+          <button class="btn btn-outline edit-service" data-id="${servicio.id}">Editar</button>
+          <button class="btn ${servicio.activo ? 'btn-danger' : 'btn-secondary'} toggle-service" data-id="${servicio.id}">
+            ${servicio.activo ? 'Desactivar' : 'Activar'}
           </button>
         </div>
       </div>
@@ -200,14 +200,14 @@ export const renderMonedero = () => {
     
     <div class="monedero-current">
       <h3>Tasa Actual</h3>
-      <div class="tasa-value">1 USD = Bs \${tasa.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-      <p class="tasa-date">Última actualización: \${fecha.toLocaleDateString('es-VE')}</p>
+      <div class="tasa-value">1 USD = Bs ${tasa.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      <p class="tasa-date">Última actualización: ${fecha.toLocaleDateString('es-VE')}</p>
     </div>
 
     <div class="monedero-form">
       <div class="form-group">
         <label for="tasa-cambio">Nueva Tasa USD → Bs</label>
-        <input type="number" id="tasa-cambio" step="0.01" min="0.01" value="\${tasa}" required>
+        <input type="number" id="tasa-cambio" step="0.01" min="0.01" value="${tasa}" required>
         <div class="error-message" id="tasa-error"></div>
       </div>
 
@@ -224,7 +224,7 @@ export const renderMonedero = () => {
           </tr>
         </thead>
         <tbody>
-          \${renderHistorialTasas()}
+          ${renderHistorialTasas()}
         </tbody>
       </table>
     </div>
@@ -253,8 +253,8 @@ const renderHistorialTasas = () => {
     const date = new Date(entry.fecha);
     return `
       <tr>
-        <td>\${date.toLocaleDateString('es-VE')} \${date.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' })}</td>
-        <td>\${entry.tasa.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td>${date.toLocaleDateString('es-VE')} ${date.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' })}</td>
+        <td>${entry.tasa.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
       </tr>
     `;
   }).join('');
@@ -310,11 +310,11 @@ const getInitials = (name) => {
 };
 
 const viewCitaDetails = (citaId) => {
-  navigate(\`/doctor/citas/\${citaId}\`);
+  navigate(`/doctor/citas/${citaId}`);
 };
 
 const editCita = (citaId) => {
-  navigate(\`/doctor/citas/editar/\${citaId}\`);
+  navigate(`/doctor/citas/editar/${citaId}`);
 };
 
 const deleteCita = (citaId) => {
@@ -326,7 +326,7 @@ const deleteCita = (citaId) => {
 };
 
 const editServicio = (servicioId) => {
-  navigate(\`/doctor/servicios/editar/\${servicioId}\`);
+  navigate(`/doctor/servicios/editar/${servicioId}`);
 };
 
 const toggleServicio = (servicioId) => {
@@ -383,9 +383,9 @@ const renderPacienteDetail = (paciente) => {
 
   detailContainer.innerHTML = `
     <div class="paciente-header">
-      <div class="paciente-avatar">\${getInitials(paciente.nombre)}</div>
-      <h2>\${paciente.nombre}</h2>
-      <p>\${paciente.cedula}</p>
+      <div class="paciente-avatar">${getInitials(paciente.nombre)}</div>
+      <h2>${paciente.nombre}</h2>
+      <p>${paciente.cedula}</p>
     </div>
 
     <div class="paciente-tabs">
@@ -400,19 +400,19 @@ const renderPacienteDetail = (paciente) => {
         <div>
           <h3>Datos Personales</h3>
           <ul class="info-list">
-            <li><strong>Fecha de Nacimiento:</strong> \${formatDate(paciente.fechaNacimiento)}</li>
-            <li><strong>Edad:</strong> \${calculateAge(paciente.fechaNacimiento)}</li>
-            <li><strong>Teléfono:</strong> \${paciente.telefono}</li>
-            <li><strong>Email:</strong> \${paciente.email}</li>
+            <li><strong>Fecha de Nacimiento:</strong> ${formatDate(paciente.fechaNacimiento)}</li>
+            <li><strong>Edad:</strong> ${calculateAge(paciente.fechaNacimiento)}</li>
+            <li><strong>Teléfono:</strong> ${paciente.telefono}</li>
+            <li><strong>Email:</strong> ${paciente.email}</li>
           </ul>
         </div>
         <div>
           <h3>Dirección</h3>
           <ul class="info-list">
-            <li><strong>Estado:</strong> \${paciente.direccion.estado}</li>
-            <li><strong>Ciudad:</strong> \${paciente.direccion.ciudad}</li>
-            <li><strong>Zona:</strong> \${paciente.direccion.zona}</li>
-            <li><strong>Calle:</strong> \${paciente.direccion.calle}</li>
+            <li><strong>Estado:</strong> ${paciente.direccion.estado}</li>
+            <li><strong>Ciudad:</strong> ${paciente.direccion.ciudad}</li>
+            <li><strong>Zona:</strong> ${paciente.direccion.zona}</li>
+            <li><strong>Calle:</strong> ${paciente.direccion.calle}</li>
           </ul>
         </div>
       </div>
@@ -421,9 +421,9 @@ const renderPacienteDetail = (paciente) => {
         <div>
           <h3>Contacto de Emergencia</h3>
           <ul class="info-list">
-            <li><strong>Nombre:</strong> \${paciente.contactoEmergencia.nombre}</li>
-            <li><strong>Relación:</strong> \${paciente.contactoEmergencia.relacion}</li>
-            <li><strong>Teléfono:</strong> \${paciente.contactoEmergencia.telefono}</li>
+            <li><strong>Nombre:</strong> ${paciente.contactoEmergencia.nombre}</li>
+            <li><strong>Relación:</strong> ${paciente.contactoEmergencia.relacion}</li>
+            <li><strong>Teléfono:</strong> ${paciente.contactoEmergencia.telefono}</li>
           </ul>
         </div>
       </div>
@@ -432,19 +432,19 @@ const renderPacienteDetail = (paciente) => {
     <div class="tab-content" data-tab="historial">
       <h3>Condiciones Crónicas</h3>
       <div class="conditions-grid">
-        \${paciente.historialMedico.condicionesCronicas.map(condicion =>
-          \`<span class="condition-tag">\${condicion}</span>\`
+        ${paciente.historialMedico.condicionesCronicas.map(condicion =>
+          `<span class="condition-tag">${condicion}</span>`
         ).join('')}
       </div>
 
       <div class="grid grid-2" style="margin-top: var(--space-4);">
         <div>
           <h3>Alergias</h3>
-          <p>\${paciente.historialMedico.alergias || 'Ninguna conocida'}</p>
+          <p>${paciente.historialMedico.alergias || 'Ninguna conocida'}</p>
         </div>
         <div>
           <h3>Medicamentos Actuales</h3>
-          <p>\${paciente.historialMedico.medicamentos || 'Ninguno'}</p>
+          <p>${paciente.historialMedico.medicamentos || 'Ninguno'}</p>
         </div>
       </div>
     </div>
@@ -452,14 +452,14 @@ const renderPacienteDetail = (paciente) => {
     <div class="tab-content" data-tab="citas">
       <h3>Historial de Citas</h3>
       <div class="history-timeline">
-        \${renderCitasTimeline(paciente.id)}
+        ${renderCitasTimeline(paciente.id)}
       </div>
     </div>
 
     <div class="tab-content" data-tab="evidencias">
       <h3>Evidencias Médicas</h3>
       <div class="evidencias-grid">
-        \${renderEvidencias(paciente.id)}
+        ${renderEvidencias(paciente.id)}
       </div>
     </div>
   `;
@@ -471,7 +471,7 @@ const renderPacienteDetail = (paciente) => {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
       tab.classList.add('active');
-      document.querySelector(\`.tab-content[data-tab="\${tab.dataset.tab}"]\`).classList.add('active');
+      document.querySelector(`.tab-content[data-tab="${tab.dataset.tab}"]`).classList.add('active');
     });
   });
 };
@@ -512,11 +512,11 @@ const renderCitasTimeline = (pacienteId) => {
 
     return `
       <div class="timeline-event">
-        <div class="timeline-date">\${date.toLocaleDateString('es-VE')}</div>
+        <div class="timeline-date">${date.toLocaleDateString('es-VE')}</div>
         <div class="timeline-content">
-          <h4>\${servicio ? servicio.nombre : 'Servicio desconocido'}</h4>
-          <p>\${cita.motivo}</p>
-          <span class="appointment-status status-\${cita.estado}">\${formatStatus(cita.estado)}</span>
+          <h4>${servicio ? servicio.nombre : 'Servicio desconocido'}</h4>
+          <p>${cita.motivo}</p>
+          <span class="appointment-status status-${cita.estado}">${formatStatus(cita.estado)}</span>
         </div>
       </div>
     `;
@@ -544,9 +544,9 @@ const renderEvidencias = (pacienteId) => {
           </div>
         </div>
         <div class="evidencia-details">
-          <h4>\${evidencia.tipo}</h4>
-          <p>\${evidencia.descripcion}</p>
-          <small>\${new Date(evidencia.fechaCaptura).toLocaleDateString('es-VE')}</small>
+          <h4>${evidencia.tipo}</h4>
+          <p>${evidencia.descripcion}</p>
+          <small>${new Date(evidencia.fechaCaptura).toLocaleDateString('es-VE')}</small>
         </div>
       </div>
     `;
@@ -587,3 +587,4 @@ document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
   // (La lógica de inicialización ya está cubierta por el evento routeChanged que dispara el router)
 });
+

@@ -103,7 +103,7 @@ function renderRoute(path) {
     const dynamicRoutes = Object.keys(routes).filter(r => r.includes(':'));
 
     for (const route of dynamicRoutes) {
-      const routePattern = new RegExp('^' + route.replace(/:\w+/g, '([\\\\w-]+)') + '$');
+      const routePattern = new RegExp('^' + route.replace(/:\w+/g, '([\\w-]+)') + '$');
       const match = path.match(routePattern);
 
       if (match) {
@@ -125,7 +125,7 @@ function renderRoute(path) {
   }
 
   // Cargar la página - usar ruta absoluta para funcionar en Netlify
-  fetch(\`/src/pages/\${routeName}.html\`)
+  fetch(`/src/pages/${routeName}.html`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Página no encontrada');
@@ -148,13 +148,13 @@ function renderRoute(path) {
     })
     .catch(error => {
       console.error('Error cargando página:', error);
-      contentArea.innerHTML = \`
+      contentArea.innerHTML = `
         <div class="container" style="padding: 100px 0; text-align: center;">
           <h2>Página no encontrada</h2>
           <p>La página que estás buscando no existe.</p>
           <a href="/" data-link class="btn btn-primary">Regresar al inicio</a>
         </div>
-      \`;
+      `;
     });
 }
 
@@ -190,7 +190,7 @@ function initPageComponents(routeName) {
   });
   document.dispatchEvent(event);
 
-  console.log(\`Página cargada: \${routeName}\`);
+  console.log(`Página cargada: ${routeName}`);
 }
 
 function updatePageTitle(routeName) {
@@ -244,3 +244,4 @@ export const router = {
   getRouteParams,
   routes
 };
+
